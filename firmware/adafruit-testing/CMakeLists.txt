@@ -19,6 +19,7 @@ pico_add_extra_outputs(${PRJ_NAME})
 
 target_link_libraries(${PRJ_NAME}
   pico_stdlib
+  hardware_i2c
 )
 
 if(CMAKE_BUILD_TYPE STREQUAL "Debug")
