@@ -1,13 +1,8 @@
 (kicad_sch (version 20230121) (generator eeschema)
 
-  (uuid a6bdf641-e64e-4bd0-89ab-89241b3a6e60)
+  (uuid 9217d116-cf40-485a-abd0-8ce710fa4b1d)
 
   (paper "A4")
-
-  (title_block
-    (title "BNO085 I2C Board")
-    (date "2023-06-22")
-  )
 
   (lib_symbols
     (symbol "BNO08x:BNO085" (in_bom yes) (on_board yes)
@@ -147,11 +142,11 @@
         )
       )
     )
-    (symbol "Connector:Conn_01x06_Pin" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
-      (property "Reference" "J" (at 0 7.62 0)
+    (symbol "Connector:Conn_01x01_Pin" (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "J" (at 0 2.54 0)
         (effects (font (size 1.27 1.27)))
       )
-      (property "Value" "Conn_01x06_Pin" (at 0 -10.16 0)
+      (property "Value" "Conn_01x01_Pin" (at 0 -2.54 0)
         (effects (font (size 1.27 1.27)))
       )
       (property "Footprint" "" (at 0 0 0)
@@ -166,37 +161,13 @@
       (property "ki_keywords" "connector" (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
-      (property "ki_description" "Generic connector, single row, 01x06, script generated" (at 0 0 0)
+      (property "ki_description" "Generic connector, single row, 01x01, script generated" (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
       (property "ki_fp_filters" "Connector*:*_1x??_*" (at 0 0 0)
         (effects (font (size 1.27 1.27)) hide)
       )
-      (symbol "Conn_01x06_Pin_1_1"
-        (polyline
-          (pts
-            (xy 1.27 -7.62)
-            (xy 0.8636 -7.62)
-          )
-          (stroke (width 0.1524) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 1.27 -5.08)
-            (xy 0.8636 -5.08)
-          )
-          (stroke (width 0.1524) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 1.27 -2.54)
-            (xy 0.8636 -2.54)
-          )
-          (stroke (width 0.1524) (type default))
-          (fill (type none))
-        )
+      (symbol "Conn_01x01_Pin_1_1"
         (polyline
           (pts
             (xy 1.27 0)
@@ -205,69 +176,13 @@
           (stroke (width 0.1524) (type default))
           (fill (type none))
         )
-        (polyline
-          (pts
-            (xy 1.27 2.54)
-            (xy 0.8636 2.54)
-          )
-          (stroke (width 0.1524) (type default))
-          (fill (type none))
-        )
-        (polyline
-          (pts
-            (xy 1.27 5.08)
-            (xy 0.8636 5.08)
-          )
-          (stroke (width 0.1524) (type default))
-          (fill (type none))
-        )
-        (rectangle (start 0.8636 -7.493) (end 0 -7.747)
-          (stroke (width 0.1524) (type default))
-          (fill (type outline))
-        )
-        (rectangle (start 0.8636 -4.953) (end 0 -5.207)
-          (stroke (width 0.1524) (type default))
-          (fill (type outline))
-        )
-        (rectangle (start 0.8636 -2.413) (end 0 -2.667)
-          (stroke (width 0.1524) (type default))
-          (fill (type outline))
-        )
         (rectangle (start 0.8636 0.127) (end 0 -0.127)
           (stroke (width 0.1524) (type default))
           (fill (type outline))
         )
-        (rectangle (start 0.8636 2.667) (end 0 2.413)
-          (stroke (width 0.1524) (type default))
-          (fill (type outline))
-        )
-        (rectangle (start 0.8636 5.207) (end 0 4.953)
-          (stroke (width 0.1524) (type default))
-          (fill (type outline))
-        )
-        (pin passive line (at 5.08 5.08 180) (length 3.81)
+        (pin passive line (at 5.08 0 180) (length 3.81)
           (name "Pin_1" (effects (font (size 1.27 1.27))))
           (number "1" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 2.54 180) (length 3.81)
-          (name "Pin_2" (effects (font (size 1.27 1.27))))
-          (number "2" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 0 180) (length 3.81)
-          (name "Pin_3" (effects (font (size 1.27 1.27))))
-          (number "3" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 -2.54 180) (length 3.81)
-          (name "Pin_4" (effects (font (size 1.27 1.27))))
-          (number "4" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 -5.08 180) (length 3.81)
-          (name "Pin_5" (effects (font (size 1.27 1.27))))
-          (number "5" (effects (font (size 1.27 1.27))))
-        )
-        (pin passive line (at 5.08 -7.62 180) (length 3.81)
-          (name "Pin_6" (effects (font (size 1.27 1.27))))
-          (number "6" (effects (font (size 1.27 1.27))))
         )
       )
     )
@@ -509,14 +424,14 @@
   (junction (at 170.18 114.3) (diameter 0) (color 0 0 0 0)
     (uuid 398f67da-ab75-440e-870f-629c1f622cb3)
   )
+  (junction (at 212.09 111.76) (diameter 0) (color 0 0 0 0)
+    (uuid 70629230-498b-4175-96a3-e990f2e90bae)
+  )
   (junction (at 132.08 73.66) (diameter 0) (color 0 0 0 0)
     (uuid 76aa4507-f1f9-404a-904e-63359afc7822)
   )
   (junction (at 176.53 104.14) (diameter 0) (color 0 0 0 0)
     (uuid 98f156e1-8919-4771-9c18-d6c38df5c33d)
-  )
-  (junction (at 212.09 111.76) (diameter 0) (color 0 0 0 0)
-    (uuid b0b6a088-1d4a-4d1c-a5bb-21daa89d4890)
   )
   (junction (at 176.53 114.3) (diameter 0) (color 0 0 0 0)
     (uuid d561c3a4-f38e-4268-a12b-615258ed010d)
@@ -528,10 +443,6 @@
   (no_connect (at 167.64 86.36) (uuid 71cfebca-bcdc-431b-923c-39d1df624cac))
   (no_connect (at 151.13 123.19) (uuid e2ea40cb-ad33-46d4-9ef3-9965210c73c3))
 
-  (wire (pts (xy 196.85 101.6) (xy 212.09 101.6))
-    (stroke (width 0) (type default))
-    (uuid 04d60ec4-704b-45fe-aba9-43661df04e97)
-  )
   (wire (pts (xy 167.64 113.03) (xy 170.18 113.03))
     (stroke (width 0) (type default))
     (uuid 0eb51b77-d9b9-4662-a84d-620c3cf74f2b)
@@ -539,10 +450,6 @@
   (wire (pts (xy 132.08 115.57) (xy 129.54 115.57))
     (stroke (width 0) (type default))
     (uuid 18c0e954-8428-4ed3-843b-aeb69056db00)
-  )
-  (wire (pts (xy 196.85 104.14) (xy 212.09 104.14))
-    (stroke (width 0) (type default))
-    (uuid 2272453b-d6f5-4456-ac24-a32d354568b1)
   )
   (wire (pts (xy 146.05 123.19) (xy 146.05 125.73))
     (stroke (width 0) (type default))
@@ -571,10 +478,6 @@
   (wire (pts (xy 129.54 115.57) (xy 129.54 114.3))
     (stroke (width 0) (type default))
     (uuid 55368bfe-addb-476b-a7d4-0c55abd7da35)
-  )
-  (wire (pts (xy 196.85 109.22) (xy 212.09 109.22))
-    (stroke (width 0) (type default))
-    (uuid 584be489-e876-4dc9-b72c-e38b2a6b40a8)
   )
   (wire (pts (xy 161.29 73.66) (xy 165.1 73.66))
     (stroke (width 0) (type default))
@@ -607,10 +510,6 @@
   (wire (pts (xy 119.38 93.98) (xy 132.08 93.98))
     (stroke (width 0) (type default))
     (uuid a57a60cb-89ec-44fd-92e2-6c01753d6e7b)
-  )
-  (wire (pts (xy 196.85 106.68) (xy 212.09 106.68))
-    (stroke (width 0) (type default))
-    (uuid aaefa99d-d30d-4519-b764-29dba9609be7)
   )
   (wire (pts (xy 209.55 111.76) (xy 212.09 111.76))
     (stroke (width 0) (type default))
@@ -683,39 +582,6 @@
     (uuid f7614ca0-f705-4f06-a437-d5409eab59c1)
   )
 
-  (label "H_SDA" (at 196.85 101.6 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 24445b75-890f-4881-98d9-4a4598c2fdd0)
-  )
-  (label "NRST" (at 196.85 106.68 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 577e3443-8cfa-4760-9659-775c7eb01fdb)
-  )
-  (label "H_SCL" (at 187.96 124.46 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 66087c78-02fc-40b6-bc07-d18c1c24f7ed)
-  )
-  (label "H_SDA" (at 180.34 104.14 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 8f7e5c5e-9e3d-41cc-bf8f-c2ca258e502a)
-  )
-  (label "NRST" (at 119.38 93.98 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid a406ba18-e050-4800-afee-4bfcb1e2ea19)
-  )
-  (label "H_INTN" (at 119.38 101.6 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid b64c95c3-90db-4021-b061-07dcbe034bcf)
-  )
-  (label "H_INTN" (at 196.85 109.22 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid c65bf9f2-f9f6-49e1-91c6-cdadd9195375)
-  )
-  (label "H_SCL" (at 196.85 104.14 0) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid fd12d181-370c-4fd9-ac67-55dabce6a6d8)
-  )
-
   (symbol (lib_id "Device:C_Polarized") (at 119.38 88.9 270) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 137723c8-a4e2-4fa1-a734-1993453db8de)
@@ -725,7 +591,7 @@
     (property "Value" "0.1uF" (at 120.269 83.82 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Capacitor_SMD:CP_Elec_4x3.9" (at 115.57 89.8652 0)
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 115.57 89.8652 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 119.38 88.9 0)
@@ -734,6 +600,11 @@
     (pin "1" (uuid 86e50b03-59bc-43c1-9beb-7d7816912422))
     (pin "2" (uuid 637d5b7e-f1a2-4179-a53b-b07e168e8ced))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "C1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "C1") (unit 1)
@@ -757,11 +628,41 @@
     (property "Datasheet" "~" (at 212.09 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid d5f16592-9538-483a-a8e1-1a1d020ada43))
+    (pin "1" (uuid 41e54507-e2f8-478a-9895-0081b8394f1e))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#FLG01") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#FLG01") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 185.42 104.14 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 19850a02-9e92-452c-bb73-a97d4900bb77)
+    (property "Reference" "J3" (at 186.69 104.14 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Conn_01x01_Pin" (at 184.785 101.6 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 185.42 104.14 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 185.42 104.14 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid a3216da6-85d4-4433-b4cc-5ae2031156d0))
+    (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J3") (unit 1)
         )
       )
     )
@@ -784,6 +685,11 @@
     )
     (pin "1" (uuid 03c66d76-54d6-4500-a62d-aaf1b99ea217))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR02") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR02") (unit 1)
@@ -801,7 +707,7 @@
     (property "Value" "10k" (at 158.75 71.12 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 158.75 73.66 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 158.75 73.66 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 158.75 73.66 0)
@@ -810,6 +716,11 @@
     (pin "1" (uuid 57603893-c4d8-4903-a48c-684d705e25d4))
     (pin "2" (uuid 349af739-91e5-4a29-9b72-4d818b28a5ba))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "R1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R1") (unit 1)
@@ -827,7 +738,7 @@
     (property "Value" "2.2k" (at 125.73 106.68 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 125.73 104.14 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 125.73 104.14 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 125.73 104.14 0)
@@ -836,6 +747,11 @@
     (pin "1" (uuid a0514ed1-63cd-484d-addf-c26e8773fd00))
     (pin "2" (uuid ae110744-8b71-45f7-af63-874d3895adac))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "R2") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R2") (unit 1)
@@ -861,9 +777,39 @@
     )
     (pin "1" (uuid 26b18835-d422-4ce3-9135-fa5dedbb29e5))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR011") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR011") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 193.04 124.46 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 3f80c964-41df-48f3-840b-6ef7f712d5c5)
+    (property "Reference" "J4" (at 194.31 124.46 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Conn_01x01_Pin" (at 192.405 121.92 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 193.04 124.46 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 193.04 124.46 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid d6d6e6b3-9ece-47da-a08b-fa2e662896f1))
+    (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J4") (unit 1)
         )
       )
     )
@@ -886,6 +832,11 @@
     )
     (pin "1" (uuid 524832c9-9c83-48d5-b8aa-6f31f6e38b49))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR09") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR09") (unit 1)
@@ -911,6 +862,11 @@
     )
     (pin "1" (uuid 6fea1967-8228-4905-97ff-49a87c84b49f))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR010") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR010") (unit 1)
@@ -928,7 +884,7 @@
     (property "Value" "2.2k" (at 179.07 121.92 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 176.53 120.65 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 176.53 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 176.53 120.65 0)
@@ -937,6 +893,11 @@
     (pin "1" (uuid 4e5b1c00-7845-4c09-8448-3f05efc18efe))
     (pin "2" (uuid d855e041-990e-4bd9-a0fd-c1cd779d31b9))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "R4") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R4") (unit 1)
@@ -989,9 +950,39 @@
     (pin "8" (uuid d6726680-994d-4368-86ee-4c6580534288))
     (pin "9" (uuid 1c977161-d75b-4984-8437-b1cc490db717))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "U1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "U1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 114.3 93.98 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 82f5f735-550e-4fe5-b9aa-6da35875de72)
+    (property "Reference" "J2" (at 113.03 93.98 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Conn_01x01_Pin" (at 114.935 91.44 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 114.3 93.98 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 114.3 93.98 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7bdb0cbd-85d3-40e6-8d38-e0ef130e10c5))
+    (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J2") (unit 1)
         )
       )
     )
@@ -1014,6 +1005,11 @@
     )
     (pin "1" (uuid 9c13ce78-881b-45cf-bf7a-8fbb355c2582))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR04") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR04") (unit 1)
@@ -1031,7 +1027,7 @@
     (property "Value" "2.2k" (at 179.07 109.22 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 176.53 109.22 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 176.53 109.22 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 176.53 109.22 0)
@@ -1040,6 +1036,11 @@
     (pin "1" (uuid d8620f8d-6e2d-439f-b9eb-bbeb8613efd3))
     (pin "2" (uuid 454d8d96-4efb-45d7-aade-db5bbb06a16c))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "R5") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R5") (unit 1)
@@ -1065,9 +1066,39 @@
     )
     (pin "1" (uuid 63e61190-0568-4840-be14-35644ad73d54))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR08") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR08") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 217.17 114.3 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 9172fbe1-ad08-4cb6-a763-b452f7cfdd7b)
+    (property "Reference" "J5" (at 219.71 114.3 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Conn_01x01_Pin" (at 229.87 114.3 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 217.17 114.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 217.17 114.3 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 4540ac5e-1b83-40ac-9497-55a13d4d5f4e))
+    (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J5") (unit 1)
         )
       )
     )
@@ -1090,6 +1121,11 @@
     )
     (pin "1" (uuid 5de14b68-dd72-41a6-aec4-9b32e008d531))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR07") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR07") (unit 1)
@@ -1115,6 +1151,11 @@
     )
     (pin "1" (uuid 869d4b61-c664-4e0c-a8a6-aadaf37e7dff))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR01") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR01") (unit 1)
@@ -1140,9 +1181,39 @@
     )
     (pin "1" (uuid 36e7b615-ba44-45a9-ad00-9284eb22b375))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR03") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR03") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 114.3 101.6 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid afe1042c-86c2-46d9-a1f2-d54df9a1657f)
+    (property "Reference" "J1" (at 113.03 101.6 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "Conn_01x01_Pin" (at 114.935 99.06 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 114.3 101.6 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 114.3 101.6 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid de9eb465-73af-4799-b438-fd74bb50f9ae))
+    (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J1") (unit 1)
         )
       )
     )
@@ -1165,6 +1236,11 @@
     )
     (pin "1" (uuid 6c8b57d3-7571-451f-b0c0-5324fc16e231))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR012") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR012") (unit 1)
@@ -1190,6 +1266,11 @@
     )
     (pin "1" (uuid 515baa3a-0c02-452a-b076-43ffbde11dc8))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR05") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR05") (unit 1)
@@ -1207,7 +1288,7 @@
     (property "Value" "2.2k" (at 143.51 128.27 90)
       (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Resistor_SMD:R_0805_2012Metric" (at 146.05 128.27 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 146.05 128.27 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (property "Datasheet" "~" (at 146.05 128.27 0)
@@ -1216,6 +1297,11 @@
     (pin "1" (uuid b5827433-b253-42a9-aded-8d956252bd01))
     (pin "2" (uuid 86c06281-5afc-495e-926d-8bc085f87e4e))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "R3") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R3") (unit 1)
@@ -1224,31 +1310,26 @@
     )
   )
 
-  (symbol (lib_id "Connector:Conn_01x06_Pin") (at 217.17 109.22 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid e4c97332-fafa-43d4-9fc8-859ad742753e)
-    (property "Reference" "J1" (at 218.44 106.68 0)
-      (effects (font (size 1.27 1.27)) (justify right))
+  (symbol (lib_id "Connector:Conn_01x01_Pin") (at 217.17 111.76 180) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid f3f09098-f8f0-485d-9492-bdf411a45156)
+    (property "Reference" "J6" (at 219.71 111.76 0)
+      (effects (font (size 1.27 1.27)))
     )
-    (property "Value" "Conn_01x06_Pin" (at 218.44 109.22 0)
-      (effects (font (size 1.27 1.27)) (justify right))
+    (property "Value" "Conn_01x01_Pin" (at 229.87 111.76 0)
+      (effects (font (size 1.27 1.27)))
     )
-    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x06_P2.54mm_Horizontal" (at 217.17 109.22 0)
+    (property "Footprint" "Connector_PinHeader_2.54mm:PinHeader_1x01_P2.54mm_Vertical" (at 217.17 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 217.17 109.22 0)
+    (property "Datasheet" "~" (at 217.17 111.76 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (pin "1" (uuid e2ef3d64-19eb-4f92-bd5b-a800f4838dce))
-    (pin "2" (uuid 1a0d7c99-884e-47c3-8ada-ac3881e95da0))
-    (pin "3" (uuid c1fc5ea7-24e5-476f-9c23-7ca7afbcc916))
-    (pin "4" (uuid b4a20ba9-18dd-4931-821f-a43e09b50908))
-    (pin "5" (uuid 7e4b4784-6459-48da-8f31-63824a81974c))
-    (pin "6" (uuid 2482b6f3-8606-4be4-8426-2f226f936f80))
+    (pin "1" (uuid ff217c8d-6ce8-4d54-a6a7-e5428bea2461))
     (instances
-      (project "bno085-i2c-board"
-        (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
-          (reference "J1") (unit 1)
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "J6") (unit 1)
         )
       )
     )
@@ -1271,6 +1352,11 @@
     )
     (pin "1" (uuid b5cab136-6c38-431a-a1e6-47c16b930100))
     (instances
+      (project "bno085-i2c-board-v2"
+        (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
+          (reference "#PWR06") (unit 1)
+        )
+      )
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR06") (unit 1)
