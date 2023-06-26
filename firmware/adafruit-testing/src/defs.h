@@ -1,3 +1,9 @@
+/******************************************************************************
+ * @file   defs.h
+ * @author Toby Godfrey
+ * @brief  Preprocessor definitions
+ *****************************************************************************/
+
 #pragma once
 
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })

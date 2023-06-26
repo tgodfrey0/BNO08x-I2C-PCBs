@@ -1,3 +1,9 @@
+/***********************************************************************************
+ * @file   main.c
+ * @author Toby Godfrey
+ * @brief  I2C communication implementation for a Pico and Adafruit BNO085 board
+ **********************************************************************************/
+
 #include <stdbool.h>
 #include <stddef.h>
 #include <stdint.h>
@@ -16,6 +22,9 @@
 
 uint8_t payload[MAX_PAYLOAD_SIZE];
 
+/**
+ * Endless loop with flashing the on-board LED
+ */
 void flash_led(uint16_t t_on, uint16_t t_off){
   for(;;){
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
@@ -54,11 +63,15 @@ void init(){
 
 /**
  * Format and print the report stored in the payload
+ *
+ * @param[in] size The number of bytes to output
  */
-void output_report(){
+void output_report(unsigned int size){
   printf("Report received successfully\n");
 
-  for(uint16_t i = 0; i < MAX_PAYLOAD_SIZE; i++){
+  printf("%d bytes received\n", size);
+
+  for(uint16_t i = 0; i < size; i++){
     printf("Index %d: %c", i, payload[i]);
   }
 
@@ -95,10 +108,12 @@ void open_channel(){
 
 /**
  * Read the header and then the payload data
+ *
+ * @returns the number of bytes of the payload returned
  */
 uint16_t read_sensor(){
   uint8_t header[4];
-  int res;
+  unsigned int res;
   uint8_t* payload_ptr = payload;
   
   res = i2c_read_blocking(I2C_INST, SENSOR_ADDR, header, 4, false);
@@ -148,7 +163,7 @@ uint16_t read_sensor(){
  * Polls the sensor over I2C and prints any output
  */
 void poll_sensor(){
-  int res;
+  unsigned int res;
 
   gpio_put(PICO_DEFAULT_LED_PIN, 1);
   res = read_sensor();
@@ -156,7 +171,7 @@ void poll_sensor(){
   if(res == 0) {
     printf("No bytes from sensor\n");
     flash_led(4000, 4000);
-  } else output_report();
+  } else output_report(res);
 
   memset(&(payload[0]), 0, res);
 }
