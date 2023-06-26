@@ -28,7 +28,7 @@ uint8_t payload[MAX_PAYLOAD_SIZE];
  * @param[in] t_on     The time the LED is on for
  * @param[in] t_off    The time the LED is off for
  */
-void flash_led_inf(uint16_t t_on, uint16_t t_off){
+void flash_led_inf(uint64_t t_on, uint64_t t_off){
   for(;;){
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
     sleep_ms(t_on);
@@ -45,7 +45,7 @@ void flash_led_inf(uint16_t t_on, uint16_t t_off){
  * @param[in] t_off    The time the LED is off for
  * @param[in] n        The number of iterations
  */
-void flash_led_n(uint16_t t_on, uint16_t t_off, uint16_t n){
+void flash_led_n(uint64_t t_on, uint64_t t_off, uint16_t n){
   for(uint16_t i = 0; i < n; i++){
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
     sleep_ms(t_on);
@@ -106,7 +106,7 @@ void open_channel(){
 
   bool succ = false;
   for(uint8_t attempts; attempts < MAX_ATTEMPTS; attempts++){
-    if(i2c_write_blocking(I2C_INST, SENSOR_ADDR, pkt, sizeof(pkt), false) != PICO_ERROR_GENERIC){
+    if(i2c_write_blocking(I2C_INST, BNO085_ADDR, pkt, sizeof(pkt), false) != PICO_ERROR_GENERIC){
       succ = true;
       break;
     }
@@ -131,7 +131,7 @@ uint16_t read_sensor(){
   unsigned int res;
   uint8_t* payload_ptr = payload;
   
-  res = i2c_read_blocking(I2C_INST, SENSOR_ADDR, header, 4, false);
+  res = i2c_read_blocking(I2C_INST, BNO085_ADDR, header, 4, false);
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
@@ -157,7 +157,7 @@ uint16_t read_sensor(){
     if(first_read) read_size = min(MAX_PAYLOAD_SIZE, (size_t)bytes_remaining);
     else read_size = min(MAX_PAYLOAD_SIZE, (size_t)(bytes_remaining + 4));
 
-    res = i2c_read_blocking(I2C_INST, SENSOR_ADDR, i2c_buf, read_size, false);
+    res = i2c_read_blocking(I2C_INST, BNO085_ADDR, i2c_buf, read_size, false);
 
     if(first_read){
       payload_read_amount = read_size;
@@ -179,6 +179,7 @@ uint16_t read_sensor(){
  * Polls the sensor over I2C and prints any output
  */
 void poll_sensor(){
+
   unsigned int res;
 
   gpio_put(PICO_DEFAULT_LED_PIN, 1);
