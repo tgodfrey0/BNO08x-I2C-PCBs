@@ -95,7 +95,7 @@ void output_report(unsigned int size){
     printf("Index %d: %c", i, payload[i]);
   }
  
-  flash_led_n(500, 500, 5);
+  //flash_led_n(500, 500, 5);
 }
 
 /**
@@ -182,14 +182,17 @@ void poll_sensor(){
   unsigned int res;
 
   gpio_put(PICO_DEFAULT_LED_PIN, 1);
+  sleep_ms(500);
   res = read_sensor();
+  gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
-  if(res == 0) {
-    printf("No bytes from sensor\n");
+  if(res == 65535) { // 65535 indicates an error
+    printf("Error returned from sensor\n");
     flash_led_inf(4000, 4000);
   } else output_report(res);
 
   memset(&(payload[0]), 0, res);
+  sleep_ms(500);
 }
 
 int main()
