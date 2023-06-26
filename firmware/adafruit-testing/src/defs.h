@@ -8,4 +8,7 @@
 #define I2C_INST						i2c0
 #define MAX_PAYLOAD_SIZE		1024
 #define MAX_ATTEMPTS				5
+
+#define SDA_PIN							16
+#define SCL_PIN							17
 #define INTN_PIN						18

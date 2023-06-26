@@ -35,18 +35,18 @@ void intn_trigger(uint gpio, uint32_t event_mask){
  */
 void init(){
 
-#if !defined(I2C_INST) || !defined(PICO_DEFAULT_I2C_SDA_PIN) || !defined(PICO_DEFAULT_I2C_SCL_PIN)
+#if !defined(I2C_INST) || !defined(SDA_PIN) || !defined(SCL_PIN)
 #warning No I2C pins are set
   puts("I2C pins were not defined")
 #else
 
   i2c_init(I2C_INST, BAUD_RATE_HZ);
   
-  gpio_set_function(PICO_DEFAULT_I2C_SDA_PIN, GPIO_FUNC_I2C);
-  gpio_set_function(PICO_DEFAULT_I2C_SCL_PIN, GPIO_FUNC_I2C);
+  gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
+  gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
 
-  gpio_pull_up(PICO_DEFAULT_I2C_SCL_PIN);
-  gpio_pull_up(PICO_DEFAULT_I2C_SDA_PIN);
+  gpio_pull_up(SCL_PIN);
+  gpio_pull_up(SDA_PIN);
 
   printf("I2C interface successfully configured\n");
 
@@ -68,7 +68,7 @@ void init(){
 void output_report(){
   printf("Report received successfully\n");
 
-  for(uint8_t i = 0; i < MAX_PAYLOAD_SIZE; i++){
+  for(uint16_t i = 0; i < MAX_PAYLOAD_SIZE; i++){
     printf("Index %d: %c", i, payload[i]);
   }
 
@@ -79,7 +79,7 @@ void output_report(){
  * Open the I2C channel
  */
 void open_channel(){
-  uint8_t pkt[] = {5, 0, 1, 0, 1};
+  uint8_t pkt[] = {5, 0, 1, 0, 2};
 
   bool succ = false;
   for(uint8_t attempts; attempts < MAX_ATTEMPTS; attempts++){
@@ -92,7 +92,7 @@ void open_channel(){
 
   if(!succ){
     printf("Failed to open channel to sensor\n");
-    flash_led(10000, 1000);
+    flash_led(1000, 1000);
   }
 
   sleep_ms(300);
@@ -110,7 +110,7 @@ uint16_t read_sensor(){
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
-    flash_led(2000, 2000);
+    flash_led(200, 2000);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
@@ -153,7 +153,7 @@ uint16_t read_sensor(){
  * Polls the sensor over I2C and prints any output
  */
 void poll_sensor(){
-  if(!data_ready) return;
+  //if(!data_ready) return;
 
   int res;
 
@@ -176,13 +176,6 @@ int main()
   init();
 
   open_channel();
-
-  for(uint8_t i = 0 ; i < 5; i++){
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    sleep_ms(250);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(250);
-  }
 
   for (;;) poll_sensor();
 
