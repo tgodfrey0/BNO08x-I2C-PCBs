@@ -16,6 +16,6 @@
 #define BAUD_RATE_HZ				400000 // Fast mode 400 kb/s
 #define TIMEOUT_MS					10000
 
-#define MAX_PAYLOAD_SIZE		1024
+#define MAX_PAYLOAD_SIZE		512
 #define MAX_ATTEMPTS				5
 
