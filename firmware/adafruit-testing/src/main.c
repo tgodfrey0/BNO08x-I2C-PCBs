@@ -20,6 +20,7 @@
 
 #include "defs.h"
 #include "pico/time.h"
+#include "pico/types.h"
 
 uint8_t payload[MAX_PAYLOAD_SIZE];
 
@@ -64,6 +65,15 @@ void flash_led_n(uint64_t t_on, uint64_t t_off, uint16_t n){
   }
 }
 
+absolute_time_t parse_timeout(){
+  absolute_time_t abs_time_limit = {(time_us_64() + (TIMEOUT_MS * 1000))};
+  return abs_time_limit;
+}
+
+unsigned int write_sensor(uint8_t* msg, uint16_t len){
+  return i2c_write_blocking_until(I2C_INST, BNO085_ADDR, msg, len, false, parse_timeout());
+}
+
 /**
  * Initialise the I2C functionality and LED
  */
@@ -98,15 +108,15 @@ void open_channel(){
   /*
    *  Byte  | Value
    *   0,1  | Length = 5
-   *   2    | Channel = 1
+   *   2    | Channel = 1 (Executable)
    *   3    | Sequence Number = 0
-   *   4    | Payload = CMD 2
+   *   4    | Payload = CMD 2 (On)
    */
   uint8_t pkt[] = {5, 0, 1, 0, 2};
 
   bool succ = false;
   for(uint8_t attempts; attempts < MAX_ATTEMPTS; attempts++){
-    if(i2c_write_blocking(I2C_INST, BNO085_ADDR, pkt, sizeof(pkt), false) != PICO_ERROR_GENERIC){
+    if(write_sensor(pkt, sizeof(pkt)) != PICO_ERROR_GENERIC){
       succ = true;
       break;
     }
@@ -132,8 +142,10 @@ void output_report(unsigned int size){
   printf("%d bytes received\n", size);
 
   for(uint16_t i = 0; i < size; i++){
-    printf("Index %d: %c", i, payload[i]);
+    printf("Index %d, %c", i, payload[i]);
   }
+
+  sleep_ms(size * 10);
  
   //flash_led_n(500, 500, 5);
 }
@@ -144,13 +156,20 @@ void output_report(unsigned int size){
  * @returns the number of bytes of the payload returned
  */
 uint16_t read_sensor(){
+  uint8_t cmd[] = {4, 0, 4, 0};
+
+  unsigned int res = write_sensor(cmd, sizeof(cmd));
+
+  if(res == PICO_ERROR_GENERIC){
+    flash_led_inf(6000, 6000);
+  } else if(res == PICO_ERROR_TIMEOUT){
+    flash_led_inf(7000, 7000);
+  }
+
   uint8_t header[4];
-  unsigned int res;
   uint8_t* payload_ptr = payload;
   
-  absolute_time_t abs_time_limit = {(time_us_64() + (TIMEOUT_MS * 1000))};
-
-  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, abs_time_limit);
+  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, parse_timeout());
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
@@ -204,21 +223,26 @@ void poll_sensor(){
 
   unsigned int res;
 
-  gpio_put(PICO_DEFAULT_LED_PIN, 1);
-  sleep_ms(100);
+  //gpio_put(PICO_DEFAULT_LED_PIN, 1);
+  //sleep_ms(100);
   res = read_sensor();
-  gpio_put(PICO_DEFAULT_LED_PIN, 0);
+  //gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
   if(res == 65535) { // 65535 indicates an error
     printf("Error returned from sensor\n");
     flash_led_inf(4000, 4000);
-  } else output_report(res);
+  } else {
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    output_report(res);
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    sleep_ms(1000);
+  }
 
   if(res <= MAX_PAYLOAD_SIZE){
     memset(&(payload[0]), 0, res);
   }
 
-  sleep_ms(100);
+  //sleep_ms(100);
 }
 
 int main()
