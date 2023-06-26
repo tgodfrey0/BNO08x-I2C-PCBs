@@ -12,6 +12,7 @@
 
 #include "boards/pico.h"
 #include "hardware/gpio.h"
+#include "hardware/timer.h"
 #include "pico/platform.h"
 #include "pico/stdio.h"
 #include "pico/stdlib.h"
@@ -82,26 +83,17 @@ void init(){
 }
 
 /**
- * Format and print the report stored in the payload
- *
- * @param[in] size The number of bytes to output
- */
-void output_report(unsigned int size){
-  printf("Report received successfully\n");
-
-  printf("%d bytes received\n", size);
-
-  for(uint16_t i = 0; i < size; i++){
-    printf("Index %d: %c", i, payload[i]);
-  }
- 
-  //flash_led_n(500, 500, 5);
-}
-
-/**
  * Open the I2C channel
  */
 void open_channel(){
+  /*
+   * Byte | Value
+   *   0  | LSB Length
+   *   1  | MSB Length
+   *   2  | Channel
+   *   3  | Sequence Number
+   *   4+ | Data
+   */
   uint8_t pkt[] = {5, 0, 1, 0, 2};
 
   bool succ = false;
@@ -122,6 +114,23 @@ void open_channel(){
 }
 
 /**
+ * Format and print the report stored in the payload
+ *
+ * @param[in] size The number of bytes to output
+ */
+void output_report(unsigned int size){
+  printf("Report received successfully\n");
+
+  printf("%d bytes received\n", size);
+
+  for(uint16_t i = 0; i < size; i++){
+    printf("Index %d: %c", i, payload[i]);
+  }
+ 
+  //flash_led_n(500, 500, 5);
+}
+
+/**
  * Read the header and then the payload data
  *
  * @returns the number of bytes of the payload returned
@@ -131,11 +140,16 @@ uint16_t read_sensor(){
   unsigned int res;
   uint8_t* payload_ptr = payload;
   
-  res = i2c_read_blocking(I2C_INST, BNO085_ADDR, header, 4, false);
+  absolute_time_t abs_time_limit = {(time_us_64() + (TIMEOUT_MS * 1000))};
+
+  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, abs_time_limit);
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
     flash_led_inf(2000, 2000);
+  } else if(res == PICO_ERROR_TIMEOUT){
+    printf("Timeout reached whilst reading header\n");
+    flash_led_inf(5000, 5000);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
@@ -176,14 +190,14 @@ uint16_t read_sensor(){
 }
 
 /**
- * Polls the sensor over I2C and prints any output
+ * Polls the sensor over I2C and process any output
  */
 void poll_sensor(){
 
   unsigned int res;
 
   gpio_put(PICO_DEFAULT_LED_PIN, 1);
-  sleep_ms(500);
+  sleep_ms(100);
   res = read_sensor();
   gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
@@ -192,8 +206,11 @@ void poll_sensor(){
     flash_led_inf(4000, 4000);
   } else output_report(res);
 
-  memset(&(payload[0]), 0, res);
-  sleep_ms(500);
+  if(res <= MAX_PAYLOAD_SIZE){
+    memset(&(payload[0]), 0, res);
+  }
+
+  sleep_ms(100);
 }
 
 int main()

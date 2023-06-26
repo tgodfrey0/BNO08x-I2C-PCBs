@@ -14,6 +14,7 @@
 #define SDA_PIN							16
 #define SCL_PIN							17
 #define BAUD_RATE_HZ				400000 // Fast mode 400 kb/s
+#define TIMEOUT_MS					10000
 
 #define MAX_PAYLOAD_SIZE		1024
 #define MAX_ATTEMPTS				5
