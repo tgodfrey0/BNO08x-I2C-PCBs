@@ -145,9 +145,6 @@ void output_report(unsigned int size){
     printf("Index %d, %c", i, payload[i]);
   }
 
-  sleep_ms(size * 10);
- 
-  //flash_led_n(500, 500, 5);
 }
 
 /**
@@ -156,7 +153,7 @@ void output_report(unsigned int size){
  * @returns the number of bytes of the payload returned
  */
 uint16_t read_sensor(){
-  uint8_t cmd[] = {4, 0, 4, 0};
+  uint8_t cmd[] = {4, 0, 3, 0};
 
   unsigned int res = write_sensor(cmd, sizeof(cmd));
 
@@ -223,26 +220,21 @@ void poll_sensor(){
 
   unsigned int res;
 
-  //gpio_put(PICO_DEFAULT_LED_PIN, 1);
-  //sleep_ms(100);
+  gpio_put(PICO_DEFAULT_LED_PIN, 1);
+  sleep_ms(100);
   res = read_sensor();
-  //gpio_put(PICO_DEFAULT_LED_PIN, 0);
+  gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
   if(res == 65535) { // 65535 indicates an error
     printf("Error returned from sensor\n");
     flash_led_inf(4000, 4000);
-  } else {
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    output_report(res);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(1000);
-  }
+  } else output_report(res);
 
   if(res <= MAX_PAYLOAD_SIZE){
     memset(&(payload[0]), 0, res);
   }
 
-  //sleep_ms(100);
+  sleep_ms(100);
 }
 
 int main()
