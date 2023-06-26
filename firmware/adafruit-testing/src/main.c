@@ -15,7 +15,6 @@
 #include "pico/time.h"
 
 uint8_t payload[MAX_PAYLOAD_SIZE];
-volatile bool data_ready = false;
 
 void flash_led(uint16_t t_on, uint16_t t_off){
   for(;;){
@@ -24,10 +23,6 @@ void flash_led(uint16_t t_on, uint16_t t_off){
     gpio_put(PICO_DEFAULT_LED_PIN, 0);
     sleep_ms(t_off);
   }
-}
-
-void intn_trigger(uint gpio, uint32_t event_mask){
-  data_ready = true;
 }
 
 /**
@@ -54,11 +49,6 @@ void init(){
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
   gpio_pull_down(PICO_DEFAULT_LED_PIN);
 
-  gpio_init(INTN_PIN);
-  gpio_set_dir(INTN_PIN, GPIO_IN);
-  gpio_pull_up(INTN_PIN);
-  gpio_set_irq_enabled_with_callback(INTN_PIN, GPIO_IRQ_EDGE_FALL, true, &intn_trigger);
-
 #endif
 }
 
@@ -72,7 +62,12 @@ void output_report(){
     printf("Index %d: %c", i, payload[i]);
   }
 
-  flash_led(200, 200);
+  for(uint8_t i = 0; i < 10; i++){
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    sleep_ms(200);
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    sleep_ms(200);
+  }
 }
 
 /**
@@ -153,8 +148,6 @@ uint16_t read_sensor(){
  * Polls the sensor over I2C and prints any output
  */
 void poll_sensor(){
-  //if(!data_ready) return;
-
   int res;
 
   gpio_put(PICO_DEFAULT_LED_PIN, 1);
