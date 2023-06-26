@@ -23,6 +23,15 @@
 
 uint8_t payload[MAX_PAYLOAD_SIZE];
 
+/*************************
+ * Byte | Value
+ *   0  | LSB Length
+ *   1  | MSB Length
+ *   2  | Channel
+ *   3  | Sequence Number
+ *   4+ | Data
+ ************************/
+
 /**
  * Endless loop with flashing the on-board LED
  *
@@ -87,12 +96,11 @@ void init(){
  */
 void open_channel(){
   /*
-   * Byte | Value
-   *   0  | LSB Length
-   *   1  | MSB Length
-   *   2  | Channel
-   *   3  | Sequence Number
-   *   4+ | Data
+   *  Byte  | Value
+   *   0,1  | Length = 5
+   *   2    | Channel = 1
+   *   3    | Sequence Number = 0
+   *   4    | Payload = CMD 2
    */
   uint8_t pkt[] = {5, 0, 1, 0, 2};
 
