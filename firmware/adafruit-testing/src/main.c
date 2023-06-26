@@ -62,7 +62,7 @@ void output_report(){
     printf("Index %d: %c", i, payload[i]);
   }
 
-  for(uint8_t i = 0; i < 10; i++){
+  for(uint8_t i = 0; i < 5; i++){
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
     sleep_ms(200);
     gpio_put(PICO_DEFAULT_LED_PIN, 0);
@@ -105,7 +105,7 @@ uint16_t read_sensor(){
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
-    flash_led(200, 2000);
+    flash_led(2000, 2000);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
@@ -158,7 +158,7 @@ void poll_sensor(){
     flash_led(4000, 4000);
   } else output_report();
 
-  memset(&payload, 0, MAX_PAYLOAD_SIZE);
+  memset(&(payload[0]), 0, res);
 }
 
 int main()
