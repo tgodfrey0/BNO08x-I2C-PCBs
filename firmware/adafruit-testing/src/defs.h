@@ -17,4 +17,3 @@
 
 #define SDA_PIN							16
 #define SCL_PIN							17
-#define INTN_PIN						18

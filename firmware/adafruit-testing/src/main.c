@@ -24,9 +24,29 @@ uint8_t payload[MAX_PAYLOAD_SIZE];
 
 /**
  * Endless loop with flashing the on-board LED
+ *
+ * @param[in] t_on     The time the LED is on for
+ * @param[in] t_off    The time the LED is off for
  */
-void flash_led(uint16_t t_on, uint16_t t_off){
+void flash_led_inf(uint16_t t_on, uint16_t t_off){
   for(;;){
+    gpio_put(PICO_DEFAULT_LED_PIN, 1);
+    sleep_ms(t_on);
+    gpio_put(PICO_DEFAULT_LED_PIN, 0);
+    sleep_ms(t_off);
+  }
+}
+
+
+/**
+ * Bounded loop with flashing the on-board LED
+ *
+ * @param[in] t_on     The time the LED is on for
+ * @param[in] t_off    The time the LED is off for
+ * @param[in] n        The number of iterations
+ */
+void flash_led_n(uint16_t t_on, uint16_t t_off, uint16_t n){
+  for(uint16_t i = 0; i < n; i++){
     gpio_put(PICO_DEFAULT_LED_PIN, 1);
     sleep_ms(t_on);
     gpio_put(PICO_DEFAULT_LED_PIN, 0);
@@ -74,13 +94,8 @@ void output_report(unsigned int size){
   for(uint16_t i = 0; i < size; i++){
     printf("Index %d: %c", i, payload[i]);
   }
-
-  for(uint8_t i = 0; i < 5; i++){
-    gpio_put(PICO_DEFAULT_LED_PIN, 1);
-    sleep_ms(200);
-    gpio_put(PICO_DEFAULT_LED_PIN, 0);
-    sleep_ms(200);
-  }
+ 
+  flash_led_n(500, 500, 5);
 }
 
 /**
@@ -100,7 +115,7 @@ void open_channel(){
 
   if(!succ){
     printf("Failed to open channel to sensor\n");
-    flash_led(1000, 1000);
+    flash_led_inf(1000, 1000);
   }
 
   sleep_ms(300);
@@ -120,15 +135,16 @@ uint16_t read_sensor(){
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
-    flash_led(2000, 2000);
+    flash_led_inf(2000, 2000);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
+  // Remove continutation bit
   payload_size &= ~0x8000;
 
   if(payload_size > MAX_PAYLOAD_SIZE){
     printf("Payload too large for buffer\n");
-    flash_led(3000, 3000);
+    flash_led_inf(3000, 3000);
   }
 
   uint16_t bytes_remaining = payload_size;
@@ -170,7 +186,7 @@ void poll_sensor(){
 
   if(res == 0) {
     printf("No bytes from sensor\n");
-    flash_led(4000, 4000);
+    flash_led_inf(4000, 4000);
   } else output_report(res);
 
   memset(&(payload[0]), 0, res);
