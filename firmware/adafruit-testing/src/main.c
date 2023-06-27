@@ -326,6 +326,11 @@ void poll_sensor(){
   sleep_ms(SAMPLE_DELAY_MS);
 }
 
+/**
+ * Configures which sensors should run
+ */
+void configure_sensors(){}
+
 int main()
 {
   stdio_init_all();
@@ -333,6 +338,8 @@ int main()
   init();
 
   open_channel();
+
+  configure_sensors();
 
   for (;;) poll_sensor();
 
