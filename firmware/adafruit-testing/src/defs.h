@@ -6,6 +6,7 @@
 
 #pragma once
 
+#include <stdint.h>
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 
 #define BNO085_ADDR					0b1001010U
@@ -18,4 +19,10 @@
 
 #define MAX_PAYLOAD_SIZE		512
 #define MAX_ATTEMPTS				5
+#define SAMPLE_DELAY_MS			500
 
+typedef struct sensor_reports_s {
+	uint8_t input_sensor_reports[MAX_PAYLOAD_SIZE];
+	uint8_t wake_input_sensor_reports[MAX_PAYLOAD_SIZE];
+  uint8_t gyro_rotation_vector_reports[MAX_PAYLOAD_SIZE];
+} sensor_reports_t;
