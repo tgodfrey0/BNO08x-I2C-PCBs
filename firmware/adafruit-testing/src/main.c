@@ -137,8 +137,6 @@ void init(){
     flash_led_inf(500, 500);
   }
 
-  output_sizes();
-
   printf("Sensor reports struct allocated\n");
 
 #endif
@@ -285,8 +283,6 @@ void read_sensor(uint8_t channel, struct single_sensor_reports* buf){
   memcpy(buf->reports, payload, payload_size);
   buf->size = payload_size;
   memset(payload, 0, payload_size);
-
-  printf("fin\n");
 }
 
 /**
