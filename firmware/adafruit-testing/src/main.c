@@ -8,6 +8,7 @@
 #include <stddef.h>
 #include <stdint.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
 #include "boards/pico.h"
@@ -22,7 +23,10 @@
 #include "pico/time.h"
 #include "pico/types.h"
 
-uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
+single_sensor_reports_t* input_sensors = NULL;
+single_sensor_reports_t* wake_input_sensors = NULL;
+single_sensor_reports_t* gyro_rotation_vector = NULL;
+full_sensor_reports_t* sensor_reports = NULL;
 
 /*************************
  * Byte | Value
@@ -78,6 +82,14 @@ unsigned int write_sensor(uint8_t* msg, uint16_t len){
  * Initialise the I2C functionality and LED
  */
 void init(){
+  
+  gpio_init(PICO_DEFAULT_LED_PIN);
+  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
+  gpio_pull_down(PICO_DEFAULT_LED_PIN);
+
+  printf("Status LED successfully configured\n");
+
+  flash_led_n(500, 500, 3);
 
 #if !defined(I2C_INST) || !defined(SDA_PIN) || !defined(SCL_PIN)
 #warning No I2C pins are set
@@ -94,9 +106,22 @@ void init(){
 
   printf("I2C interface successfully configured\n");
 
-  gpio_init(PICO_DEFAULT_LED_PIN);
-  gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
-  gpio_pull_down(PICO_DEFAULT_LED_PIN);
+  input_sensors = malloc(sizeof(single_sensor_reports_t));
+  wake_input_sensors = malloc(sizeof(single_sensor_reports_t));
+  gyro_rotation_vector = malloc(sizeof(single_sensor_reports_t));
+
+  sensor_reports = &(full_sensor_reports_t) {
+    .input_sensor_reports = input_sensors,
+    .wake_input_sensor_reports = wake_input_sensors,
+    .gyro_rotation_vector_reports = gyro_rotation_vector
+  };
+
+  if(sensor_reports == NULL || input_sensors == NULL || wake_input_sensors == NULL || gyro_rotation_vector == NULL){
+    printf("Failed to allocated memory for sensor struct\n");
+    flash_led_inf(500, 500);
+  }
+
+  printf("Sensor reports struct allocated\n");
 
 #endif
 }
@@ -132,34 +157,48 @@ void open_channel(){
 }
 
 /**
- * Format and print the report stored in the payload
+ * Format a report to stdout
  *
- * @param[in] size The number of bytes to output
+ * @param[in] name      The display name for the reports
+ * @param[in] size      The size of the data
+ * @param[in] payload   The report data
  */
-void output_report(unsigned int size){
-  static uint16_t report_count;
-
-  printf("Report %d received successfully\n", report_count);
-
+void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
+  printf("%s Report:\n", name);
   printf("%d bytes received\n", size);
 
-  for(uint16_t i = 0; i < size; i++){
-    printf("Index %d: %d\n", i, payload[i]);
+  printf("[");
+  for(uint16_t i = 0; i < (size-1); i++){
+    printf("%d, ", payload[i]);
   }
-
-  printf("\n");
-  report_count++;
-
+  printf("%d]\n", payload[size-1]);
 }
 
 /**
- * Read the header and then the payload data
- *
- * @returns the number of bytes of the payload returned
+ * Print the reports received
  */
-uint16_t read_sensor(){
+void output_report(){
+  static uint16_t report_count = 0;
+
+  printf("Read %d completed successfully\n", report_count);
+  
+  format_sensor_reports("Input Sensors", sensor_reports->input_sensor_reports->size, sensor_reports->input_sensor_reports->reports);
+  format_sensor_reports("Wake Input Sensors", sensor_reports->wake_input_sensor_reports->size, sensor_reports->wake_input_sensor_reports->reports);
+  format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyro_rotation_vector_reports->size, sensor_reports->gyro_rotation_vector_reports->reports);
+
+  printf("\n");
+  report_count++;
+}
+
+/**
+ * Read the header and then the payload data for a given channel
+ *
+ * @param[in] channel   The channel to read data from
+ * @param[out] buf      A struct pointer to store the output
+ */
+void read_sensor(uint8_t channel, single_sensor_reports_t* buf){
   unsigned int res;
-  uint8_t cmd[] = {4, 0, 3, 0};
+  uint8_t cmd[] = {4, 0, channel, 0};
 
   res = write_sensor(cmd, sizeof(cmd));
 
@@ -170,6 +209,7 @@ uint16_t read_sensor(){
   }
 
   uint8_t header[4];
+  uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
   uint8_t* payload_ptr = payload;
   
   res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, parse_timeout());
@@ -216,7 +256,44 @@ uint16_t read_sensor(){
     bytes_remaining -= payload_read_amount;
   }
 
-  return payload_size;
+  if(payload_size == 65535) { // 65535 indicates an error
+    printf("Error returned from sensor\n");
+    flash_led_inf(4000, 4000);
+  }
+
+  memset(buf->reports, 0, buf->size);
+  memcpy(buf->reports, payload, payload_size);
+  buf->size = payload_size; 
+}
+
+/**
+ * Read Input sensors
+ */
+void read_input_sensors(){
+  read_sensor(3, input_sensors);
+}
+
+/**
+ * Read Wake Input sensors
+ */
+void read_wake_input_sensors(){
+  read_sensor(4, wake_input_sensors);
+}
+
+/**
+ * Read the Gyro Rotation Vector sensors
+ */
+void read_gyro_rotation_vector_sensors(){
+  read_sensor(5, gyro_rotation_vector);
+}
+
+/**
+ * Read all three sensor channels
+ */
+void read_all_sensors(){
+  read_input_sensors();
+  read_wake_input_sensors();
+  read_gyro_rotation_vector_sensors();
 }
 
 /**
@@ -226,16 +303,9 @@ void poll_sensor(){
 
   unsigned int res;
 
-  res = read_sensor();
+  read_all_sensors();
 
-  if(res == 65535) { // 65535 indicates an error
-    printf("Error returned from sensor\n");
-    flash_led_inf(4000, 4000);
-  } else output_report(res);
-
-  if(res <= MAX_PAYLOAD_SIZE){
-    memset(&(payload[0]), 0, res);
-  }
+  output_report();
 
   sleep_ms(SAMPLE_DELAY_MS);
 }
@@ -246,7 +316,7 @@ int main()
   stdio_init_all();
 
   init();
-
+  
   open_channel();
 
   for (;;) poll_sensor();

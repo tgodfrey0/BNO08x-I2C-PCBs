@@ -18,11 +18,17 @@
 #define TIMEOUT_MS					10000
 
 #define MAX_PAYLOAD_SIZE		512
-#define MAX_ATTEMPTS				5
-#define SAMPLE_DELAY_MS			500
+#define MAX_ATTEMPTS				5 // Max tries to open an I2C connection to the sensor
+#define SAMPLE_DELAY_MS			500 // Delay between reading the sensors
 
-typedef struct sensor_reports_s {
-	uint8_t input_sensor_reports[MAX_PAYLOAD_SIZE];
-	uint8_t wake_input_sensor_reports[MAX_PAYLOAD_SIZE];
-  uint8_t gyro_rotation_vector_reports[MAX_PAYLOAD_SIZE];
-} sensor_reports_t;
+typedef struct single_sensor_reports_s {
+  uint8_t reports[MAX_PAYLOAD_SIZE];
+	uint16_t size;
+} single_sensor_reports_t;
+
+typedef struct full_sensor_reports_s {
+	single_sensor_reports_t* input_sensor_reports;
+	single_sensor_reports_t* wake_input_sensor_reports;
+  single_sensor_reports_t* gyro_rotation_vector_reports;
+} full_sensor_reports_t;
+
