@@ -22,7 +22,7 @@
 #include "pico/time.h"
 #include "pico/types.h"
 
-uint8_t payload[MAX_PAYLOAD_SIZE];
+uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
 
 /*************************
  * Byte | Value
@@ -137,13 +137,18 @@ void open_channel(){
  * @param[in] size The number of bytes to output
  */
 void output_report(unsigned int size){
-  printf("Report received successfully\n");
+  static uint16_t report_count;
+
+  printf("Report %d received successfully\n", report_count);
 
   printf("%d bytes received\n", size);
 
   for(uint16_t i = 0; i < size; i++){
-    printf("Index %d, %c", i, payload[i]);
+    printf("Index %d: %d\n", i, payload[i]);
   }
+
+  printf("\n");
+  report_count++;
 
 }
 
@@ -153,9 +158,10 @@ void output_report(unsigned int size){
  * @returns the number of bytes of the payload returned
  */
 uint16_t read_sensor(){
+  unsigned int res;
   uint8_t cmd[] = {4, 0, 3, 0};
 
-  unsigned int res = write_sensor(cmd, sizeof(cmd));
+  res = write_sensor(cmd, sizeof(cmd));
 
   if(res == PICO_ERROR_GENERIC){
     flash_led_inf(6000, 6000);
@@ -220,10 +226,7 @@ void poll_sensor(){
 
   unsigned int res;
 
-  gpio_put(PICO_DEFAULT_LED_PIN, 1);
-  sleep_ms(100);
   res = read_sensor();
-  gpio_put(PICO_DEFAULT_LED_PIN, 0);
 
   if(res == 65535) { // 65535 indicates an error
     printf("Error returned from sensor\n");
@@ -234,7 +237,7 @@ void poll_sensor(){
     memset(&(payload[0]), 0, res);
   }
 
-  sleep_ms(100);
+  sleep_ms(SAMPLE_DELAY_MS);
 }
 
 int main()
