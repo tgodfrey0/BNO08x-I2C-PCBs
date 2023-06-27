@@ -30,3 +30,6 @@ endif()
 
 add_subdirectory(src)
 add_subdirectory(include)
+
+pico_enable_stdio_usb(${PRJ_NAME} 1)
+pico_enable_stdio_uart(${PRJ_NAME} 0)
