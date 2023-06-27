@@ -23,6 +23,8 @@
 #include "pico/time.h"
 #include "pico/types.h"
 
+static uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
+
 static single_sensor_reports_t* input_sensors = NULL;
 static single_sensor_reports_t* wake_input_sensors = NULL;
 static single_sensor_reports_t* gyro_rotation_vector = NULL;
@@ -230,7 +232,6 @@ void read_sensor(uint8_t channel, single_sensor_reports_t* buf){
   }
 
   uint8_t header[4];
-  uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
   uint8_t* payload_ptr = payload;
   
   res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
@@ -283,6 +284,8 @@ void read_sensor(uint8_t channel, single_sensor_reports_t* buf){
     printf("Error returned from sensor\n");
     flash_led_inf(4000, 4000);
   }
+
+  memset(payload, 0, payload_size);
 
   printf("r1\n");
   printf("%p\n", buf->reports);
