@@ -36,8 +36,8 @@ struct single_sensor_reports* wake_input_sensors = &(struct single_sensor_report
 };
 
 struct single_sensor_reports* gyro_rotation_vector = &(struct single_sensor_reports) {
-    .size = 0,
-    .reports = {0}
+  .size = 0,
+  .reports = {0}
 };
 
 struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
@@ -104,7 +104,7 @@ unsigned int write_sensor(uint8_t* msg, uint16_t len){
  * Initialise the I2C functionality and LED
  */
 void init(){
-  
+
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
   gpio_pull_down(PICO_DEFAULT_LED_PIN);
@@ -114,12 +114,12 @@ void init(){
   flash_led_n(500, 500, 3);
 
 #if !defined(I2C_INST) || !defined(SDA_PIN) || !defined(SCL_PIN)
-#warning No I2C pins are set
+  #warning No I2C pins are set
   puts("I2C pins were not defined")
 #else
 
   i2c_init(I2C_INST, BAUD_RATE_HZ);
-  
+
   gpio_set_function(SDA_PIN, GPIO_FUNC_I2C);
   gpio_set_function(SCL_PIN, GPIO_FUNC_I2C);
 
@@ -197,7 +197,7 @@ void output_report(){
   static uint16_t report_count = 0;
 
   printf("Read %d completed successfully\n", report_count);
-  
+
   format_sensor_reports("Input Sensors", sensor_reports->input_sensor_reports->size, sensor_reports->input_sensor_reports->reports);
   format_sensor_reports("Wake Input Sensors", sensor_reports->wake_input_sensor_reports->size, sensor_reports->wake_input_sensor_reports->reports);
   format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyro_rotation_vector_reports->size, sensor_reports->gyro_rotation_vector_reports->reports);
@@ -229,7 +229,7 @@ void read_sensor(uint8_t channel, struct single_sensor_reports* buf){
 
   uint8_t header[4];
   uint8_t* payload_ptr = payload;
-  
+
   res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
 
   if(res == PICO_ERROR_GENERIC){
