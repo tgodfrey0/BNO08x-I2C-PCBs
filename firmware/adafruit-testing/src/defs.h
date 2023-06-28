@@ -22,13 +22,45 @@
 
 #define MAX_PAYLOAD_SIZE    512
 #define MAX_ATTEMPTS	    5 // Max tries to open an I2C connection to the sensor
-#define SAMPLE_DELAY_MS	    60 // Delay between reading the sensors
+#define SAMPLE_DELAY_MS	    1000 // Delay between reading the sensors
 #define SAMPLE_RATE_MS	    60 // The rate at which sensors push data to the bus
+
+
+// These are not necessarily all the same so the union allows forward compatibility
+struct accelerometer_input_report {
+  uint8_t status;
+  uint8_t delay;
+  uint16_t x;
+  uint16_t y;
+  uint16_t z;
+};
+
+struct magnetic_field_input_report {
+  uint8_t status;
+  uint8_t delay;
+  uint16_t x;
+  uint16_t y;
+  uint16_t z;
+};
+
+struct gyroscope_calibrated_input_report {
+  uint8_t status;
+  uint8_t delay;
+  uint16_t x;
+  uint16_t y;
+  uint16_t z;
+};
+
+union input_report {
+  struct accelerometer_input_report* accelerometer_input_report;
+  struct magnetic_field_input_report* magnetic_field_input_report;
+  struct gyroscope_calibrated_input_report* gyroscope_input_report;
+};
 
 struct single_sensor_reports {
   const uint8_t chan;
   const uint8_t sensor_id;
-  uint8_t reports[MAX_PAYLOAD_SIZE];
+  union input_report* input_report;
   uint16_t size;
   bool enabled;
 };
