@@ -19,7 +19,7 @@
 
 #define MAX_PAYLOAD_SIZE    512
 #define MAX_ATTEMPTS	    5 // Max tries to open an I2C connection to the sensor
-#define SAMPLE_DELAY_MS	    1000 // Delay between reading the sensors
+#define SAMPLE_DELAY_MS	    60 // Delay between reading the sensors
 
 struct single_sensor_reports {
   uint8_t chan;

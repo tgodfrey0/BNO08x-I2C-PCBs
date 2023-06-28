@@ -62,6 +62,12 @@ struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
  *   4+ | Data
  ************************/
 
+uint8_t get_seq_num(){
+  static uint8_t seq_num;
+  uint8_t sn = seq_num;
+  seq_num++;
+  return sn;
+}
 
 /**
  * Endless loop with flashing the on-board LED
@@ -160,7 +166,7 @@ void open_channel(){
    *   3    | Sequence Number = 0
    *   4    | Payload = CMD 2 (On)
    */
-  uint8_t pkt[] = {5, 0, 1, 0, 2};
+  uint8_t pkt[] = {5, 0, 1, get_seq_num(), 2};
 
   bool succ = false;
   for(uint8_t attempts; attempts < MAX_ATTEMPTS; attempts++){
@@ -187,6 +193,10 @@ void open_channel(){
  * @param[in] payload   The report data
  */
 void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
+  if(size == 0){
+    return;
+  }
+
   printf("%s Report:\n", name);
   printf("%d bytes received\n", size);
 
@@ -203,11 +213,11 @@ void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
 void output_report(){
   static uint16_t report_count = 0;
 
-  printf("Read %d completed successfully\n", report_count);
+  //printf("Read %d completed successfully\n", report_count);
 
   format_sensor_reports("Accelerometer", sensor_reports->accelerometer->size, sensor_reports->accelerometer->reports);
-  format_sensor_reports("Magnetic Field", sensor_reports->magnetic_field->size, sensor_reports->magnetic_field->reports);
-  format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyroscope->size, sensor_reports->gyroscope->reports);
+  //format_sensor_reports("Magnetic Field", sensor_reports->magnetic_field->size, sensor_reports->magnetic_field->reports);
+  //format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyroscope->size, sensor_reports->gyroscope->reports);
 
   printf("\n");
   report_count++;
@@ -224,7 +234,7 @@ void read_sensor(struct single_sensor_reports* buf){
   memset(buf->reports, 0, MAX_PAYLOAD_SIZE);
 
   unsigned int res;
-  uint8_t cmd[] = {6, 0, buf->chan, 0, 0xF0, buf->sensor_id};
+  uint8_t cmd[] = {6, 0, buf->chan, get_seq_num(), 0xF0, buf->sensor_id};
 
   res = write_sensor(cmd, sizeof(cmd));
 
@@ -245,10 +255,6 @@ void read_sensor(struct single_sensor_reports* buf){
   } else if(res == PICO_ERROR_TIMEOUT){
     printf("Timeout reached whilst reading header\n");
     flash_led_inf(5000, 5000);
-  }
-
-  for(uint8_t i = 0; i < 4; i++){
-    printf("H%d: %d\n", i, header[i]);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
@@ -337,13 +343,60 @@ void poll_sensor(){
   sleep_ms(SAMPLE_DELAY_MS);
 }
 
+void enable_feature(uint8_t feature_report_id, uint64_t period_ms){
+  uint8_t period[4];
+
+  uint64_t period_us = period_ms * 1000;
+
+  period[0] = period_us & 0xFF;
+  period[1] = (period_us >> 8) & 0xFF;
+  period[2] = (period_us >> 16) & 0xFF;
+  period[3] = (period_us >> 24) & 0xFF;
+
+  //printf("Period of %" PRIu64 " ms is now MSB[%x, %x, %x, %x]LSB", period_ms, period[3], period[2], period[1], period[0]);
+
+  uint8_t pkt[] = {
+    0x15, // Length LSB
+    0x00, // Length MSB
+    0x02, // Channel
+    get_seq_num(),
+    0xFD, // Report ID
+    feature_report_id,
+    0, // Feature flags
+    0, // Change sensitivity LSB
+    0, // Change sensitivity MSB
+    period[0], // Report interval LSB
+    period[1],
+    period[2],
+    period[3], // Report interval MSB
+    0, // Batch interval LSB
+    0,
+    0,
+    0, // Batch interval MSB
+    0, // Sensor-specific configuration word LSB
+    0,
+    0,
+    0  // Sensor-specific configuration word MSB
+  };
+
+  uint8_t res = write_sensor(pkt, sizeof(pkt));
+
+  if(res == PICO_ERROR_GENERIC){
+    printf("Failed to enable feature %x\n", feature_report_id);
+  } else if(res == PICO_ERROR_TIMEOUT){
+    printf("Timeout reached when enabling feature %x\n", feature_report_id);
+  } else {
+    printf("Successfully enabled feature %x with a reporting period of %" PRIu64 " ms", feature_report_id, period_ms);
+  }
+}
+
 /**
  * Configures which sensors should run
  */
 void configure_sensors(){
   unsigned int res;
 
-  uint8_t pkt[] = {12, 0, 2, 0, 0xF9};
+  uint8_t pkt[] = {12, 0, 2, get_seq_num(), 0xF9};
 
   res = i2c_write_blocking(I2C_INST, BNO085_ADDR, pkt, sizeof(pkt), false);
 
@@ -416,7 +469,7 @@ void configure_sensors(){
   printf("SW Build Number: %d [%d, %d, %d, %d]\n", build_num, payload[8], payload[9], payload[10], payload[11]);
   printf("SW Version Patch: %d [%d, %d]\n", patch_num, payload[12], payload[13]);
 
-  //flash_led_inf(100, 100);
+  enable_feature(0x01, 60);
 }
 
 int main()
