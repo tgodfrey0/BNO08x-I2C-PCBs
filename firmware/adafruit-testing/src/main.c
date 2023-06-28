@@ -449,6 +449,7 @@ void read_sensor(struct single_sensor_reports* buf){
 
 
   buf->size = payload_size;
+  printf("%d bytes\n", payload_size);
 
   parse_payload();
 
