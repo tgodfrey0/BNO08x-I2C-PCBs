@@ -26,25 +26,31 @@
 
 uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
 
-struct single_sensor_reports* input_sensors = &(struct single_sensor_reports) {
+struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
+  .chan = 3,
+  .sensor_id = 0x01,
   .size = 0,
   .reports = {0}
 };
 
-struct single_sensor_reports* wake_input_sensors = &(struct single_sensor_reports) {
+struct single_sensor_reports* rotation_vector = &(struct single_sensor_reports) {
+  .chan = 5,
+  .sensor_id = 0x05,
   .size = 0,
   .reports = {0}
 };
 
-struct single_sensor_reports* gyro_rotation_vector = &(struct single_sensor_reports) {
+struct single_sensor_reports* magnetic_field = &(struct single_sensor_reports) {
+  .chan = 3,
+  .sensor_id = 0x03,
   .size = 0,
   .reports = {0}
 };
 
 struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
-  .input_sensor_reports = NULL,
-  .wake_input_sensor_reports = NULL,
-  .gyro_rotation_vector_reports = NULL
+  .accelerometer = NULL,
+  .gyroscope = NULL,
+  .magnetic_field = NULL
 };
 
 /*************************
@@ -129,11 +135,11 @@ void init(){
 
   printf("I2C interface successfully configured\n");
 
-  sensor_reports->input_sensor_reports = input_sensors;
-  sensor_reports->wake_input_sensor_reports = wake_input_sensors;
-  sensor_reports->gyro_rotation_vector_reports = gyro_rotation_vector;
+  sensor_reports->accelerometer = accelerometer;
+  sensor_reports->magnetic_field = magnetic_field;
+  sensor_reports->gyroscope = rotation_vector;
 
-  if(sensor_reports == NULL || input_sensors == NULL || wake_input_sensors == NULL || gyro_rotation_vector == NULL){
+  if(sensor_reports == NULL || accelerometer == NULL || magnetic_field == NULL || rotation_vector == NULL){
     printf("Failed to allocated memory for sensor struct\n");
     flash_led_inf(500, 500);
   }
@@ -199,9 +205,9 @@ void output_report(){
 
   printf("Read %d completed successfully\n", report_count);
 
-  format_sensor_reports("Input Sensors", sensor_reports->input_sensor_reports->size, sensor_reports->input_sensor_reports->reports);
-  format_sensor_reports("Wake Input Sensors", sensor_reports->wake_input_sensor_reports->size, sensor_reports->wake_input_sensor_reports->reports);
-  format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyro_rotation_vector_reports->size, sensor_reports->gyro_rotation_vector_reports->reports);
+  format_sensor_reports("Accelerometer", sensor_reports->accelerometer->size, sensor_reports->accelerometer->reports);
+  format_sensor_reports("Magnetic Field", sensor_reports->magnetic_field->size, sensor_reports->magnetic_field->reports);
+  format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyroscope->size, sensor_reports->gyroscope->reports);
 
   printf("\n");
   report_count++;
@@ -213,12 +219,12 @@ void output_report(){
  * @param[in] channel   The channel to read data from
  * @param[out] buf      A struct pointer to store the output
  */
-void read_sensor(uint8_t channel, struct single_sensor_reports* buf){
+void read_sensor(struct single_sensor_reports* buf){
   buf->size = 0;
   memset(buf->reports, 0, MAX_PAYLOAD_SIZE);
 
   unsigned int res;
-  uint8_t cmd[] = {4, 0, channel, 0};
+  uint8_t cmd[] = {6, 0, buf->chan, 0, 0xF0, buf->sensor_id};
 
   res = write_sensor(cmd, sizeof(cmd));
 
@@ -239,6 +245,10 @@ void read_sensor(uint8_t channel, struct single_sensor_reports* buf){
   } else if(res == PICO_ERROR_TIMEOUT){
     printf("Timeout reached whilst reading header\n");
     flash_led_inf(5000, 5000);
+  }
+
+  for(uint8_t i = 0; i < 4; i++){
+    printf("H%d: %d\n", i, header[i]);
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
@@ -287,33 +297,33 @@ void read_sensor(uint8_t channel, struct single_sensor_reports* buf){
 }
 
 /**
- * Read Input sensors
+ * Read the accelerometer
  */
-void read_input_sensors(){
-  read_sensor(3, input_sensors);
+void read_accelerometer(){
+  read_sensor(sensor_reports->accelerometer);
 }
 
 /**
- * Read Wake Input sensors
+ * Read the magnetic field
  */
-void read_wake_input_sensors(){
-  read_sensor(4, wake_input_sensors);
+void read_magnetic_field(){
+  read_sensor(sensor_reports->magnetic_field);
 }
 
 /**
- * Read the Gyro Rotation Vector sensors
+ * Read the rotation vector
  */
-void read_gyro_rotation_vector_sensors(){
-  read_sensor(5, gyro_rotation_vector);
+void read_rotation_vector(){
+  read_sensor(sensor_reports->gyroscope);
 }
 
 /**
  * Read all three sensor channels
  */
 void read_all_sensors(){
-  read_input_sensors();
-  read_wake_input_sensors();
-  read_gyro_rotation_vector_sensors();
+  read_accelerometer();
+  read_magnetic_field();
+  read_rotation_vector();
 }
 
 /**
@@ -394,14 +404,19 @@ void configure_sensors(){
     flash_led_inf(4000, 4000);
   }
 
-  uint64_t pid;
+  uint32_t part_num = payload[4] | (payload[5] << 8) | (payload[6] << 16) | (payload[7] << 24);
+  uint32_t build_num = payload[8] | (payload[9] << 8) | (payload[10] << 16) | (payload[11] << 24);
+  uint16_t patch_num = payload[12] | (payload[13] << 8);
 
-  for(uint16_t i = 0; i < payload_size; i++){
-    pid |= (payload[i] << (i * 8));
-  }
+  printf("Report ID: %d\n", payload[0]);
+  printf("Reset Cause: %d\n", payload[1]);
+  printf("SW Version Major: %d\n", payload[2]);
+  printf("SW Version Minor: %d\n", payload[3]);
+  printf("SW Part Number: %d [%d, %d, %d, %d]\n", part_num, payload[4], payload[5], payload[6], payload[7]);
+  printf("SW Build Number: %d [%d, %d, %d, %d]\n", build_num, payload[8], payload[9], payload[10], payload[11]);
+  printf("SW Version Patch: %d [%d, %d]\n", patch_num, payload[12], payload[13]);
 
-  printf("Product ID: %" PRIu64 "\n", pid);
-  flash_led_inf(100, 100);
+  //flash_led_inf(100, 100);
 }
 
 int main()

@@ -19,16 +19,18 @@
 
 #define MAX_PAYLOAD_SIZE    512
 #define MAX_ATTEMPTS	    5 // Max tries to open an I2C connection to the sensor
-#define SAMPLE_DELAY_MS	    100 // Delay between reading the sensors
+#define SAMPLE_DELAY_MS	    1000 // Delay between reading the sensors
 
 struct single_sensor_reports {
+  uint8_t chan;
+  uint8_t sensor_id;
   uint8_t reports[MAX_PAYLOAD_SIZE];
   uint16_t size;
 };
 
 struct full_sensor_reports {
-  struct single_sensor_reports *input_sensor_reports;
-  struct single_sensor_reports *wake_input_sensor_reports;
-  struct single_sensor_reports *gyro_rotation_vector_reports;
+  struct single_sensor_reports *accelerometer;
+  struct single_sensor_reports *gyroscope;
+  struct single_sensor_reports *magnetic_field;
 };
 
