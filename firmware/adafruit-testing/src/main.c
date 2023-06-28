@@ -30,21 +30,24 @@ struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
   .chan = 3,
   .sensor_id = 0x01,
   .size = 0,
-  .reports = {0}
+  .reports = {0},
+  .enabled = false
 };
 
-struct single_sensor_reports* rotation_vector = &(struct single_sensor_reports) {
-  .chan = 5,
-  .sensor_id = 0x05,
+struct single_sensor_reports* gyroscope_calibrated = &(struct single_sensor_reports) {
+  .chan = 3,
+  .sensor_id = 0x02,
   .size = 0,
-  .reports = {0}
+  .reports = {0},
+  .enabled = false
 };
 
 struct single_sensor_reports* magnetic_field = &(struct single_sensor_reports) {
   .chan = 3,
   .sensor_id = 0x03,
   .size = 0,
-  .reports = {0}
+  .reports = {0},
+  .enabled = false
 };
 
 struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
@@ -143,9 +146,9 @@ void init(){
 
   sensor_reports->accelerometer = accelerometer;
   sensor_reports->magnetic_field = magnetic_field;
-  sensor_reports->gyroscope = rotation_vector;
+  sensor_reports->gyroscope = gyroscope_calibrated;
 
-  if(sensor_reports == NULL || accelerometer == NULL || magnetic_field == NULL || rotation_vector == NULL){
+  if(sensor_reports == NULL || accelerometer == NULL || magnetic_field == NULL || gyroscope_calibrated == NULL){
     printf("Failed to allocated memory for sensor struct\n");
     flash_led_inf(500, 500);
   }
@@ -193,12 +196,9 @@ void open_channel(){
  * @param[in] payload   The report data
  */
 void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
-  if(size == 0){
-    return;
-  }
+  if(size == 0) return;
 
-  printf("%s Report:\n", name);
-  printf("%d bytes received\n", size);
+  printf("%s report, %d bytes received\n", name, size);
 
   printf("[");
   for(uint16_t i = 0; i < (size-1); i++){
@@ -213,14 +213,16 @@ void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
 void output_report(){
   static uint16_t report_count = 0;
 
-  //printf("Read %d completed successfully\n", report_count);
+  printf("Read %d completed successfully\n", report_count);
 
-  format_sensor_reports("Accelerometer", sensor_reports->accelerometer->size, sensor_reports->accelerometer->reports);
-  //format_sensor_reports("Magnetic Field", sensor_reports->magnetic_field->size, sensor_reports->magnetic_field->reports);
-  //format_sensor_reports("Gyro Rotation Vector", sensor_reports->gyroscope->size, sensor_reports->gyroscope->reports);
+  if(sensor_reports->accelerometer->enabled) format_sensor_reports("Accelerometer", sensor_reports->accelerometer->size, sensor_reports->accelerometer->reports);
+  if(sensor_reports->magnetic_field->enabled) format_sensor_reports("Magnetic Field", sensor_reports->magnetic_field->size, sensor_reports->magnetic_field->reports);
+  if(sensor_reports->gyroscope->enabled) format_sensor_reports("Gyroscope (calibrated)", sensor_reports->gyroscope->size, sensor_reports->gyroscope->reports);
 
-  printf("\n");
-  report_count++;
+  if(sensor_reports->accelerometer->enabled || sensor_reports->magnetic_field->enabled || sensor_reports->gyroscope->enabled){
+    printf("\n");
+    report_count++;
+  }
 }
 
 /**
@@ -319,7 +321,7 @@ void read_magnetic_field(){
 /**
  * Read the rotation vector
  */
-void read_rotation_vector(){
+void read_gyroscope_calibrated(){
   read_sensor(sensor_reports->gyroscope);
 }
 
@@ -329,7 +331,7 @@ void read_rotation_vector(){
 void read_all_sensors(){
   read_accelerometer();
   read_magnetic_field();
-  read_rotation_vector();
+  read_gyroscope_calibrated();
 }
 
 /**
@@ -343,17 +345,20 @@ void poll_sensor(){
   sleep_ms(SAMPLE_DELAY_MS);
 }
 
-void enable_feature(uint8_t feature_report_id, uint64_t period_ms){
+/**
+ * Send a Set Feature packet to enable the given sensor
+ *
+ * @param sensor    The struct for the sensor to enable
+ */
+void enable_sensor(struct single_sensor_reports* sensor){
   uint8_t period[4];
 
-  uint64_t period_us = period_ms * 1000;
+  uint64_t period_us = SAMPLE_RATE_MS * 1000;
 
   period[0] = period_us & 0xFF;
   period[1] = (period_us >> 8) & 0xFF;
   period[2] = (period_us >> 16) & 0xFF;
   period[3] = (period_us >> 24) & 0xFF;
-
-  //printf("Period of %" PRIu64 " ms is now MSB[%x, %x, %x, %x]LSB", period_ms, period[3], period[2], period[1], period[0]);
 
   uint8_t pkt[] = {
     0x15, // Length LSB
@@ -361,7 +366,7 @@ void enable_feature(uint8_t feature_report_id, uint64_t period_ms){
     0x02, // Channel
     get_seq_num(),
     0xFD, // Report ID
-    feature_report_id,
+    sensor->sensor_id,
     0, // Feature flags
     0, // Change sensitivity LSB
     0, // Change sensitivity MSB
@@ -382,11 +387,12 @@ void enable_feature(uint8_t feature_report_id, uint64_t period_ms){
   uint8_t res = write_sensor(pkt, sizeof(pkt));
 
   if(res == PICO_ERROR_GENERIC){
-    printf("Failed to enable feature %x\n", feature_report_id);
+    printf("Failed to enable feature %x\n", sensor->sensor_id);
   } else if(res == PICO_ERROR_TIMEOUT){
-    printf("Timeout reached when enabling feature %x\n", feature_report_id);
+    printf("Timeout reached when enabling feature %x\n", sensor->sensor_id);
   } else {
-    printf("Successfully enabled feature %x with a reporting period of %" PRIu64 " ms", feature_report_id, period_ms);
+    printf("Successfully enabled feature 0x%x with a reporting period of %d ms\n", sensor->sensor_id, SAMPLE_RATE_MS);
+    sensor->enabled = true;
   }
 }
 
@@ -469,7 +475,9 @@ void configure_sensors(){
   printf("SW Build Number: %d [%d, %d, %d, %d]\n", build_num, payload[8], payload[9], payload[10], payload[11]);
   printf("SW Version Patch: %d [%d, %d]\n", patch_num, payload[12], payload[13]);
 
-  enable_feature(0x01, 60);
+  enable_sensor(sensor_reports->accelerometer);
+  enable_sensor(sensor_reports->magnetic_field);
+  enable_sensor(sensor_reports->gyroscope); 
 }
 
 int main()

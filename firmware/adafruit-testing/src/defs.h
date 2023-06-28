@@ -6,7 +6,10 @@
 
 #pragma once
 
+#include <stdbool.h>
 #include <stdint.h>
+
+
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 
 #define BNO085_ADDR	    0b1001010U
@@ -20,12 +23,14 @@
 #define MAX_PAYLOAD_SIZE    512
 #define MAX_ATTEMPTS	    5 // Max tries to open an I2C connection to the sensor
 #define SAMPLE_DELAY_MS	    60 // Delay between reading the sensors
+#define SAMPLE_RATE_MS	    60 // The rate at which sensors push data to the bus
 
 struct single_sensor_reports {
-  uint8_t chan;
-  uint8_t sensor_id;
+  const uint8_t chan;
+  const uint8_t sensor_id;
   uint8_t reports[MAX_PAYLOAD_SIZE];
   uint16_t size;
+  bool enabled;
 };
 
 struct full_sensor_reports {
