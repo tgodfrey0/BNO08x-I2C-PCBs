@@ -400,84 +400,13 @@ void enable_sensor(struct single_sensor_reports* sensor){
  * Configures which sensors should run
  */
 void configure_sensors(){
-  unsigned int res;
-
-  uint8_t pkt[] = {12, 0, 2, get_seq_num(), 0xF9};
-
-  res = i2c_write_blocking(I2C_INST, BNO085_ADDR, pkt, sizeof(pkt), false);
-
-  if(res == PICO_ERROR_GENERIC){
-    printf("Failed to send message\n");
-    flash_led_inf(3000, 3000);
-  }
-  
-  uint8_t header[4];
-  uint8_t* payload_ptr = payload;
-
-  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
-
-  if(res == PICO_ERROR_GENERIC){
-    printf("Failed to read header\n");
-    flash_led_inf(2000, 2000);
-  } else if(res == PICO_ERROR_TIMEOUT){
-    printf("Timeout reached whilst reading header\n");
-    flash_led_inf(5000, 5000);
-  }
-
-  uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
-  // Remove continutation bit
-  payload_size &= ~0x8000;
-
-  if(payload_size > MAX_PAYLOAD_SIZE){
-    printf("Payload too large for buffer\n");
-    flash_led_inf(3000, 3000);
-  }
-
-  uint16_t bytes_remaining = payload_size;
-  uint16_t read_size;
-  uint8_t i2c_buf[MAX_PAYLOAD_SIZE];
-  uint16_t payload_read_amount = 0;
-  bool first_read = true;
-
-  while(bytes_remaining > 0){
-    if(first_read) read_size = min(MAX_PAYLOAD_SIZE, (size_t)bytes_remaining);
-    else read_size = min(MAX_PAYLOAD_SIZE, (size_t)(bytes_remaining + 4));
-
-    res = i2c_read_blocking(I2C_INST, BNO085_ADDR, i2c_buf, read_size, false);
-
-    if(first_read){
-      payload_read_amount = read_size;
-      memcpy(payload_ptr, i2c_buf, payload_read_amount);
-      first_read = false;
-    } else {
-      payload_read_amount = read_size - 4;
-      memcpy(payload_ptr, i2c_buf, payload_read_amount);
-    }
-
-    payload_ptr += payload_read_amount;
-    bytes_remaining -= payload_read_amount;
-  }
-
-  if(payload_size == 65535) { // 65535 indicates an error
-    printf("Error returned from sensor\n");
-    flash_led_inf(4000, 4000);
-  }
-
-  uint32_t part_num = payload[4] | (payload[5] << 8) | (payload[6] << 16) | (payload[7] << 24);
-  uint32_t build_num = payload[8] | (payload[9] << 8) | (payload[10] << 16) | (payload[11] << 24);
-  uint16_t patch_num = payload[12] | (payload[13] << 8);
-
-  printf("Report ID: %d\n", payload[0]);
-  printf("Reset Cause: %d\n", payload[1]);
-  printf("SW Version Major: %d\n", payload[2]);
-  printf("SW Version Minor: %d\n", payload[3]);
-  printf("SW Part Number: %d [%d, %d, %d, %d]\n", part_num, payload[4], payload[5], payload[6], payload[7]);
-  printf("SW Build Number: %d [%d, %d, %d, %d]\n", build_num, payload[8], payload[9], payload[10], payload[11]);
-  printf("SW Version Patch: %d [%d, %d]\n", patch_num, payload[12], payload[13]);
+  printf("Enabling sensors\n");
 
   enable_sensor(sensor_reports->accelerometer);
   enable_sensor(sensor_reports->magnetic_field);
   enable_sensor(sensor_reports->gyroscope); 
+
+  printf("Sensors enabled\n");
 }
 
 int main()
