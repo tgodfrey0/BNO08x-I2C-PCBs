@@ -384,21 +384,10 @@ void parse_payload(){
 void read_sensor(struct single_sensor_reports* buf){
   buf->size = 0;
 
-  unsigned int res;
-  uint8_t cmd[] = {6, 0, buf->chan, get_seq_num(), 0xF0, buf->sensor_id};
-
-  res = write_sensor(cmd, sizeof(cmd));
-
-  if(res == PICO_ERROR_GENERIC){
-    flash_led_inf(6000, 6000);
-  } else if(res == PICO_ERROR_TIMEOUT){
-    flash_led_inf(7000, 7000);
-  }
-
   uint8_t header[4];
   uint8_t* payload_ptr = payload;
 
-  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
+  uint8_t res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
 
   if(res == PICO_ERROR_GENERIC){
     printf("Failed to read header\n");
