@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 #include "boards/pico.h"
 #include "hardware/gpio.h"
@@ -329,7 +330,79 @@ void poll_sensor(){
 /**
  * Configures which sensors should run
  */
-void configure_sensors(){}
+void configure_sensors(){
+  unsigned int res;
+
+  uint8_t pkt[] = {12, 0, 2, 0, 0xF9};
+
+  res = i2c_write_blocking(I2C_INST, BNO085_ADDR, pkt, sizeof(pkt), false);
+
+  if(res == PICO_ERROR_GENERIC){
+    printf("Failed to send message\n");
+    flash_led_inf(3000, 3000);
+  }
+  
+  uint8_t header[4];
+  uint8_t* payload_ptr = payload;
+
+  res = i2c_read_blocking_until(I2C_INST, BNO085_ADDR, header, 4, false, calc_timeout());
+
+  if(res == PICO_ERROR_GENERIC){
+    printf("Failed to read header\n");
+    flash_led_inf(2000, 2000);
+  } else if(res == PICO_ERROR_TIMEOUT){
+    printf("Timeout reached whilst reading header\n");
+    flash_led_inf(5000, 5000);
+  }
+
+  uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
+  // Remove continutation bit
+  payload_size &= ~0x8000;
+
+  if(payload_size > MAX_PAYLOAD_SIZE){
+    printf("Payload too large for buffer\n");
+    flash_led_inf(3000, 3000);
+  }
+
+  uint16_t bytes_remaining = payload_size;
+  uint16_t read_size;
+  uint8_t i2c_buf[MAX_PAYLOAD_SIZE];
+  uint16_t payload_read_amount = 0;
+  bool first_read = true;
+
+  while(bytes_remaining > 0){
+    if(first_read) read_size = min(MAX_PAYLOAD_SIZE, (size_t)bytes_remaining);
+    else read_size = min(MAX_PAYLOAD_SIZE, (size_t)(bytes_remaining + 4));
+
+    res = i2c_read_blocking(I2C_INST, BNO085_ADDR, i2c_buf, read_size, false);
+
+    if(first_read){
+      payload_read_amount = read_size;
+      memcpy(payload_ptr, i2c_buf, payload_read_amount);
+      first_read = false;
+    } else {
+      payload_read_amount = read_size - 4;
+      memcpy(payload_ptr, i2c_buf, payload_read_amount);
+    }
+
+    payload_ptr += payload_read_amount;
+    bytes_remaining -= payload_read_amount;
+  }
+
+  if(payload_size == 65535) { // 65535 indicates an error
+    printf("Error returned from sensor\n");
+    flash_led_inf(4000, 4000);
+  }
+
+  uint64_t pid;
+
+  for(uint16_t i = 0; i < payload_size; i++){
+    pid |= (payload[i] << (i * 8));
+  }
+
+  printf("Product ID: %" PRIu64 "\n", pid);
+  flash_led_inf(100, 100);
+}
 
 int main()
 {
@@ -340,6 +413,8 @@ int main()
   open_channel();
 
   configure_sensors();
+
+  flash_led_n(100, 100, 5);
 
   for (;;) poll_sensor();
 
