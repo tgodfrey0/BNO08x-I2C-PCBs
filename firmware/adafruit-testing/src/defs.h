@@ -12,19 +12,22 @@
 
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 
-#define BNO085_ADDR	    0b1001010U
-
-#define I2C_INST	    i2c0
-#define SDA_PIN		    16
-#define SCL_PIN		    17
-#define BAUD_RATE_HZ	    400000 // Fast mode 400 kb/s
-#define TIMEOUT_MS	    10000
+#define BNO085_ADDR	0b1001010U
+#define I2C_INST	i2c0
+#define SDA_PIN		16
+#define SCL_PIN		17
+#define BAUD_RATE_HZ	400000 // Fast mode 400 kb/s
+#define TIMEOUT_MS	10000
 
 #define MAX_PAYLOAD_SIZE    512
 #define MAX_ATTEMPTS	    5 // Max tries to open an I2C connection to the sensor
 #define SAMPLE_DELAY_MS	    60 // Delay between reading the sensors
 #define SAMPLE_RATE_MS	    60 // The rate at which sensors push data to the bus
 
+#define HEADER_TIMEBASE_OFFSET	      9
+#define ACCELEROMETER_ID	      0x01
+#define GYROSCOPE_CALIBRATED_ID	      0x02
+#define MAGNET_FIELD_CALIBRATED_ID    0x03
 
 // These are not necessarily all the same so the union allows forward compatibility
 struct accelerometer_input_report {

@@ -25,6 +25,7 @@
 #include "pico/types.h"
 
 uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
+uint16_t inner_cargo_size = 0;
 
 struct accelerometer_input_report* acc_data = &(struct accelerometer_input_report){
   .status = 0,
@@ -250,7 +251,7 @@ void format_accelerometer_data(){
   printf("Accelerometer data:\n");
   printf("Status: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
   printf("Delay: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
-  printf("(x, y, z): (%d, %d, %d)\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x, sensor_reports->accelerometer->input_report->accelerometer_input_report->y, sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
+  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x, sensor_reports->accelerometer->input_report->accelerometer_input_report->y, sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
 }
 
 /**
@@ -260,7 +261,7 @@ void format_gyroscope_data(){
   printf("Gyroscope data:\n");
   printf("Status: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->status);
   printf("Delay: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->delay);
-  printf("(x, y, z): (%d, %d, %d)\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->x, sensor_reports->gyroscope->input_report->gyroscope_input_report->y, sensor_reports->gyroscope->input_report->gyroscope_input_report->z);
+  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->x, sensor_reports->gyroscope->input_report->gyroscope_input_report->y, sensor_reports->gyroscope->input_report->gyroscope_input_report->z);
 }
 
 /**
@@ -270,13 +271,13 @@ void format_magnetic_field_data(){
   printf("Magnetic field sensor data:\n");
   printf("Status: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status);
   printf("Delay: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay);
-  printf("(x, y, z): (%d, %d, %d)\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->x, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->y, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->z);
+  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->x, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->y, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->z);
 }
 
 /**
  * Print the reports received
  */
-void output_report(){
+void output_reports(){
   static uint16_t report_count = 0;
 
   if(sensor_reports->accelerometer->enabled) format_accelerometer_data();
@@ -291,39 +292,50 @@ void output_report(){
 
 /**
  * Parse the received payload into the accelerometer struct
+ *
+ * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
  */
-void parse_accelerometer_data(){
-  if(sizeof(payload) != 10){
+void parse_accelerometer_data(uint8_t* cargo_ptr){
+  if(inner_cargo_size != 10){
     printf("Invalid report from accelerometer\n");
     return;
   }
 
-  uint16_t x = payload[4] | (payload[5] << 8);
-  uint16_t y = payload[6] | (payload[7] << 8);
-  uint16_t z = payload[8] | (payload[9] << 8);
+  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 4), (*(cargo_ptr + 5) << 8), x);
+  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 6), (*(cargo_ptr + 7) << 8), y);
+  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
+  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 8), (*(cargo_ptr + 9) << 8), z);
 
-  sensor_reports->accelerometer->input_report->accelerometer_input_report->status = payload[2];
-  sensor_reports->accelerometer->input_report->accelerometer_input_report->delay = payload[3];
+  sensor_reports->accelerometer->input_report->accelerometer_input_report->status = *(cargo_ptr + 2);
+  sensor_reports->accelerometer->input_report->accelerometer_input_report->delay = *(cargo_ptr + 3);
   sensor_reports->accelerometer->input_report->accelerometer_input_report->x = x;
   sensor_reports->accelerometer->input_report->accelerometer_input_report->y = y;
   sensor_reports->accelerometer->input_report->accelerometer_input_report->z = z;
+
+  printf("x: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x);
+  printf("y: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->y);
+  printf("z: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
 }
 
 /**
  * Parse the received payload into the gyroscope struct
+ *
+ * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
  */
-void parse_gyroscope_data(){
-  if(sizeof(payload) != 10){
+void parse_gyroscope_data(uint8_t* cargo_ptr){
+  if(inner_cargo_size != 10){
     printf("Invalid report from gyroscope\n");
     return;
   }
 
-  uint16_t x = payload[4] | (payload[5] << 8);
-  uint16_t y = payload[6] | (payload[7] << 8);
-  uint16_t z = payload[8] | (payload[9] << 8);
+  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
 
-  sensor_reports->gyroscope->input_report->gyroscope_input_report->status = payload[2];
-  sensor_reports->gyroscope->input_report->gyroscope_input_report->delay = payload[3];
+  sensor_reports->gyroscope->input_report->gyroscope_input_report->status = *(cargo_ptr + 2);
+  sensor_reports->gyroscope->input_report->gyroscope_input_report->delay = *(cargo_ptr + 3);
   sensor_reports->gyroscope->input_report->gyroscope_input_report->x = x;
   sensor_reports->gyroscope->input_report->gyroscope_input_report->y = y;
   sensor_reports->gyroscope->input_report->gyroscope_input_report->z = z;
@@ -331,19 +343,21 @@ void parse_gyroscope_data(){
 
 /**
  * Parse the received payload into the magnetic field struct
+ *
+ * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
  */
-void parse_magnetic_field_data(){
-  if(sizeof(payload) != 10){
+void parse_magnetic_field_data(uint8_t* cargo_ptr){
+  if(inner_cargo_size != 10){
     printf("Invalid report from magnetic field sensor\n");
     return;
   }
 
-  uint16_t x = payload[4] | (payload[5] << 8);
-  uint16_t y = payload[6] | (payload[7] << 8);
-  uint16_t z = payload[8] | (payload[9] << 8);
+  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
 
-  sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status = payload[2];
-  sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay = payload[3];
+  sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status = *(cargo_ptr + 2);
+  sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay = *(cargo_ptr + 3);
   sensor_reports->magnetic_field->input_report->magnetic_field_input_report->x = x;
   sensor_reports->magnetic_field->input_report->magnetic_field_input_report->y = y;
   sensor_reports->magnetic_field->input_report->magnetic_field_input_report->z = z;
@@ -353,24 +367,16 @@ void parse_magnetic_field_data(){
  * Convert the payload buffer into useful data
  */
 void parse_payload(){
-  printf("ID %x\n", payload[0]);
-  printf("[");
-  for(uint16_t i = 0; i < sizeof(payload); i++){
-    printf("%x, ", payload[i]);
-  }
-  printf("]\n");
-  switch (payload[0]) {
-    case 0x01:
-      printf("Accelerometer data received\n");
-      parse_accelerometer_data();
+  uint8_t* cargo_ptr = &(payload[9]); // First 9 bytes are the header and timebase references
+  switch (payload[9]) {     
+    case ACCELEROMETER_ID:
+      parse_accelerometer_data(cargo_ptr);
       break;
-    case 0x02:
-      printf("Gyroscope data received\n");
-      parse_gyroscope_data();
+    case GYROSCOPE_CALIBRATED_ID:
+      parse_gyroscope_data(cargo_ptr);
       break;
-    case 0x03:
-      printf("Magnetic field sensor data received\n");
-      parse_magnetic_field_data();
+    case MAGNET_FIELD_CALIBRATED_ID:
+      parse_magnetic_field_data(cargo_ptr);
       break;
   }
 }
@@ -440,39 +446,21 @@ void read_sensor(struct single_sensor_reports* buf){
   buf->size = payload_size;
   printf("%d bytes\n", payload_size);
 
-  parse_payload();
+  if(payload_size > 0) {
+    inner_cargo_size = payload_size - HEADER_TIMEBASE_OFFSET;
+    parse_payload();
+  }
 
   memset(payload, 0, payload_size);
-}
-
-/**
- * Read the accelerometer
- */
-void read_accelerometer(){
-  read_sensor(sensor_reports->accelerometer);
-}
-
-/**
- * Read the magnetic field
- */
-void read_magnetic_field(){
-  read_sensor(sensor_reports->magnetic_field);
-}
-
-/**
- * Read the rotation vector
- */
-void read_gyroscope_calibrated(){
-  read_sensor(sensor_reports->gyroscope);
 }
 
 /**
  * Read all three sensor channels
  */
 void read_all_sensors(){
-  read_accelerometer();
-  read_magnetic_field();
-  read_gyroscope_calibrated();
+  read_sensor(sensor_reports->accelerometer);
+  read_sensor(sensor_reports->magnetic_field);
+  read_sensor(sensor_reports->gyroscope);
 }
 
 /**
@@ -481,7 +469,7 @@ void read_all_sensors(){
 void poll_sensor(){
   read_all_sensors();
 
-  output_report();
+  output_reports();
 
   sleep_ms(SAMPLE_DELAY_MS);
 }
