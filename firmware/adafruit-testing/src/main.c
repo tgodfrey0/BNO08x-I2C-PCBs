@@ -214,9 +214,9 @@ void parse_accelerometer_data(struct full_sensor_reports* sensor_reports, uint8_
     return;
   }
 
-  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
-  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
-  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
+  int16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  int16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  int16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
 
   sensor_reports->accelerometer->input_report->accelerometer_input_report->status = *(cargo_ptr + 2);
   sensor_reports->accelerometer->input_report->accelerometer_input_report->delay = *(cargo_ptr + 3);
@@ -237,9 +237,9 @@ void parse_gyroscope_data(struct full_sensor_reports* sensor_reports, uint8_t* c
     return;
   }
 
-  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
-  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
-  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
+  int16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  int16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  int16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
 
   sensor_reports->gyroscope->input_report->gyroscope_input_report->status = *(cargo_ptr + 2);
   sensor_reports->gyroscope->input_report->gyroscope_input_report->delay = *(cargo_ptr + 3);
@@ -260,9 +260,9 @@ void parse_magnetic_field_data(struct full_sensor_reports* sensor_reports, uint8
     return;
   }
 
-  uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
-  uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
-  uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
+  int16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
+  int16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
+  int16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
 
   sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status = *(cargo_ptr + 2);
   sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay = *(cargo_ptr + 3);

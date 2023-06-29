@@ -33,25 +33,25 @@
 struct accelerometer_input_report {
   uint8_t status;
   uint8_t delay;
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
+  int16_t x;
+  int16_t y;
+  int16_t z;
 };
 
 struct magnetic_field_input_report {
   uint8_t status;
   uint8_t delay;
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
+  int16_t x;
+  int16_t y;
+  int16_t z;
 };
 
 struct gyroscope_calibrated_input_report {
   uint8_t status;
   uint8_t delay;
-  uint16_t x;
-  uint16_t y;
-  uint16_t z;
+  int16_t x;
+  int16_t y;
+  int16_t z;
 };
 
 union input_report {
