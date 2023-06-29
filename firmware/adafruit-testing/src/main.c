@@ -27,64 +27,6 @@
 uint8_t payload[MAX_PAYLOAD_SIZE] = {0};
 uint16_t inner_cargo_size = 0;
 
-struct accelerometer_input_report* acc_data = &(struct accelerometer_input_report){
-  .status = 0,
-  .delay = 0,
-  .x = 0,
-  .y = 0,
-  .z = 0
-};
-
-struct magnetic_field_input_report* mag_data = &(struct magnetic_field_input_report){
-  .status = 0,
-  .delay = 0,
-  .x = 0,
-  .y = 0,
-  .z = 0
-};
-
-struct gyroscope_calibrated_input_report* gyro_data = &(struct gyroscope_calibrated_input_report){
-  .status = 0,
-  .delay = 0,
-  .x = 0,
-  .y = 0,
-  .z = 0
-};
-
-union input_report* acc_rep = NULL;
-union input_report* mag_rep = NULL;
-union input_report* gyro_rep = NULL;
-
-struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
-  .chan = 3,
-  .sensor_id = ACCELEROMETER_ID,
-  .size = 0,
-  .input_report = NULL,
-  .enabled = false
-};
-
-struct single_sensor_reports* gyroscope_calibrated = &(struct single_sensor_reports) {
-  .chan = 3,
-  .sensor_id = GYROSCOPE_CALIBRATED_ID,
-  .size = 0,
-  .input_report = NULL,
-  .enabled = false
-};
-
-struct single_sensor_reports* magnetic_field = &(struct single_sensor_reports) {
-  .chan = 3,
-  .sensor_id = MAGNET_FIELD_CALIBRATED_ID,
-  .size = 0,
-  .input_report = NULL,
-  .enabled = false
-};
-
-struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
-  .accelerometer = NULL,
-  .gyroscope = NULL,
-  .magnetic_field = NULL
-};
-
 /*************************
  * Byte | Value
  *   0  | LSB Length
@@ -148,7 +90,7 @@ unsigned int write_sensor(uint8_t* msg, uint16_t len){
 /**
  * Initialise the I2C functionality and LED
  */
-void init(){
+void init_pins(){
 
   gpio_init(PICO_DEFAULT_LED_PIN);
   gpio_set_dir(PICO_DEFAULT_LED_PIN, GPIO_OUT);
@@ -172,25 +114,6 @@ void init(){
   gpio_pull_up(SDA_PIN);
 
   printf("I2C interface successfully configured\n");
-
-  acc_rep->accelerometer_input_report = acc_data;
-  mag_rep->magnetic_field_input_report = mag_data;
-  gyro_rep->gyroscope_input_report = gyro_data;
-
-  accelerometer->input_report = acc_rep;
-  magnetic_field->input_report = mag_rep;
-  gyroscope_calibrated->input_report = gyro_rep;
-
-  sensor_reports->accelerometer = accelerometer;
-  sensor_reports->magnetic_field = magnetic_field;
-  sensor_reports->gyroscope = gyroscope_calibrated;
-
-  if(sensor_reports == NULL || accelerometer == NULL || magnetic_field == NULL || gyroscope_calibrated == NULL){
-    printf("Failed to allocated memory for sensor struct\n");
-    flash_led_inf(500, 500);
-  }
-
-  printf("Sensor reports struct allocated\n");
 
 #endif
 }
@@ -246,13 +169,10 @@ void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
 
 /**
  * Format the received payload into the accelerometer struct
+ *
+ * @param[in] sensor_reports    The full sensor struct
  */
-void format_accelerometer_data(){
-  printf("s: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
-  printf("d: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
-  printf("x: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x);
-  printf("y: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->y);
-  printf("z: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
+void format_accelerometer_data(struct full_sensor_reports* sensor_reports){
   printf("Accelerometer data:\n");
   printf("Status: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
   printf("Delay: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
@@ -261,8 +181,10 @@ void format_accelerometer_data(){
 
 /**
  * Format the received payload into the gyroscope struct
+ *
+ * @param[in] sensor_reports    The full sensor struct
  */
-void format_gyroscope_data(){
+void format_gyroscope_data(struct full_sensor_reports* sensor_reports){
   printf("Gyroscope data:\n");
   printf("Status: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->status);
   printf("Delay: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->delay);
@@ -271,8 +193,10 @@ void format_gyroscope_data(){
 
 /**
  * Format the received payload into the magnetic field struct
+ *
+ * @param[in] sensor_reports    The full sensor struct
  */
-void format_magnetic_field_data(){
+void format_magnetic_field_data(struct full_sensor_reports* sensor_reports){
   printf("Magnetic field sensor data:\n");
   printf("Status: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status);
   printf("Delay: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay);
@@ -281,13 +205,15 @@ void format_magnetic_field_data(){
 
 /**
  * Print the reports received
+ *
+ * @param[in] sensor_reports    The full sensor struct
  */
-void output_reports(){
+void output_reports(struct full_sensor_reports* sensor_reports){
   static uint16_t report_count = 0;
 
-  if(sensor_reports->accelerometer->enabled) format_accelerometer_data();
-  if(sensor_reports->magnetic_field->enabled) format_magnetic_field_data();
-  if(sensor_reports->gyroscope->enabled) format_gyroscope_data();
+  if(sensor_reports->accelerometer->enabled) format_accelerometer_data(sensor_reports);
+  if(sensor_reports->magnetic_field->enabled) format_magnetic_field_data(sensor_reports);
+  if(sensor_reports->gyroscope->enabled) format_gyroscope_data(sensor_reports);
 
   if(sensor_reports->accelerometer->enabled || sensor_reports->magnetic_field->enabled || sensor_reports->gyroscope->enabled){
     printf("\n");
@@ -298,9 +224,10 @@ void output_reports(){
 /**
  * Parse the received payload into the accelerometer struct
  *
+ * @param[out] sensor_report    The full sensor struct
  * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
  */
-void parse_accelerometer_data(uint8_t* cargo_ptr){
+void parse_accelerometer_data(struct full_sensor_reports* sensor_reports, uint8_t* cargo_ptr){
   if(inner_cargo_size != 10){
     printf("Invalid report from accelerometer\n");
     return;
@@ -315,20 +242,15 @@ void parse_accelerometer_data(uint8_t* cargo_ptr){
   sensor_reports->accelerometer->input_report->accelerometer_input_report->x = x;
   sensor_reports->accelerometer->input_report->accelerometer_input_report->y = y;
   sensor_reports->accelerometer->input_report->accelerometer_input_report->z = z;
-
-  printf("s: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
-  printf("d: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
-  printf("x: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x);
-  printf("y: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->y);
-  printf("z: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
 }
 
 /**
  * Parse the received payload into the gyroscope struct
  *
+ * @param[out] sensor_report    The full sensor struct
  * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
  */
-void parse_gyroscope_data(uint8_t* cargo_ptr){
+void parse_gyroscope_data(struct full_sensor_reports* sensor_reports, uint8_t* cargo_ptr){
   if(inner_cargo_size != 10){
     printf("Invalid report from gyroscope\n");
     return;
@@ -348,9 +270,10 @@ void parse_gyroscope_data(uint8_t* cargo_ptr){
 /**
  * Parse the received payload into the magnetic field struct
  *
- * @param[in] cargo_ptr A pointer to the start of the cargo in the payload buffer
+ * @param[out] sensor_report    The full sensor struct
+ * @param[in] cargo_ptr         A pointer to the start of the cargo in the payload buffer
  */
-void parse_magnetic_field_data(uint8_t* cargo_ptr){
+void parse_magnetic_field_data(struct full_sensor_reports* sensor_reports, uint8_t* cargo_ptr){
   if(inner_cargo_size != 10){
     printf("Invalid report from magnetic field sensor\n");
     return;
@@ -369,18 +292,20 @@ void parse_magnetic_field_data(uint8_t* cargo_ptr){
 
 /**
  * Convert the payload buffer into useful data
+ *
+ * @param[out] sensor_reports   The full sensor struct
  */
-void parse_payload(){
+void parse_payload(struct full_sensor_reports* sensor_reports){
   uint8_t* cargo_ptr = &(payload[9]); // First 9 bytes are the header and timebase references
   switch (payload[9]) {     
     case ACCELEROMETER_ID:
-      parse_accelerometer_data(cargo_ptr);
+      parse_accelerometer_data(sensor_reports, cargo_ptr);
       break;
     case GYROSCOPE_CALIBRATED_ID:
-      parse_gyroscope_data(cargo_ptr);
+      parse_gyroscope_data(sensor_reports, cargo_ptr);
       break;
     case MAGNET_FIELD_CALIBRATED_ID:
-      parse_magnetic_field_data(cargo_ptr);
+      parse_magnetic_field_data(sensor_reports, cargo_ptr);
       break;
   }
 }
@@ -388,10 +313,10 @@ void parse_payload(){
 /**
  * Read the header and then the payload data for a given channel
  *
- * @param[in] channel   The channel to read data from
- * @param[out] buf      A struct pointer to store the output
+ * @param[out] sensor_reports   The full sensor struct
+ * @param[out] buf              A struct pointer to store the output
  */
-void read_sensor(struct single_sensor_reports* buf){
+void read_sensor(struct full_sensor_reports* sensor_reports, struct single_sensor_reports* buf){
   buf->size = 0;
 
   uint8_t header[4];
@@ -451,7 +376,7 @@ void read_sensor(struct single_sensor_reports* buf){
 
   if(payload_size > 0) {
     inner_cargo_size = payload_size - HEADER_TIMEBASE_OFFSET;
-    parse_payload();
+    parse_payload(sensor_reports);
   }
 
   memset(payload, 0, payload_size);
@@ -459,20 +384,24 @@ void read_sensor(struct single_sensor_reports* buf){
 
 /**
  * Read all three sensor channels
+ *
+ * @param[in] sensor_reports    The struct with all sensor data
  */
-void read_all_sensors(){
-  read_sensor(sensor_reports->accelerometer);
-  read_sensor(sensor_reports->magnetic_field);
-  read_sensor(sensor_reports->gyroscope);
+void read_all_sensors(struct full_sensor_reports* sensor_reports){
+  read_sensor(sensor_reports, sensor_reports->accelerometer);
+  read_sensor(sensor_reports, sensor_reports->magnetic_field);
+  read_sensor(sensor_reports, sensor_reports->gyroscope);
 }
 
 /**
  * Polls the sensor over I2C and process any output
+ *
+ * @param[in] sensor_reports    The struct with all sensor data
  */
-void poll_sensor(){
-  read_all_sensors();
+void poll_sensor(struct full_sensor_reports* sensor_reports){
+  read_all_sensors(sensor_reports);
 
-  output_reports();
+  output_reports(sensor_reports);
 
   sleep_ms(SAMPLE_DELAY_MS);
 }
@@ -530,8 +459,10 @@ void enable_sensor(struct single_sensor_reports* sensor){
 
 /**
  * Configures which sensors should run
+ *
+ * @param[in] sensor_reports    Full sensor struct
  */
-void configure_sensors(){
+void configure_sensors(struct full_sensor_reports* sensor_reports){
   printf("Enabling sensors\n");
 
   enable_sensor(sensor_reports->accelerometer);
@@ -545,15 +476,81 @@ int main()
 {
   stdio_init_all();
 
-  init();
+  struct accelerometer_input_report* acc_data = &(struct accelerometer_input_report){
+    .status = 0,
+    .delay = 0,
+    .x = 0,
+    .y = 0,
+    .z = 0
+  };
+
+  struct magnetic_field_input_report* mag_data = &(struct magnetic_field_input_report){
+    .status = 0,
+    .delay = 0,
+    .x = 0,
+    .y = 0,
+    .z = 0
+  };
+
+  struct gyroscope_calibrated_input_report* gyro_data = &(struct gyroscope_calibrated_input_report){
+    .status = 0,
+    .delay = 0,
+    .x = 0,
+    .y = 0,
+    .z = 0
+  };
+
+  union input_report* acc_rep = &(union input_report){
+    .accelerometer_input_report = acc_data
+  };
+
+  union input_report* mag_rep = &(union input_report){
+    .magnetic_field_input_report = mag_data
+  };
+
+  union input_report* gyro_rep = &(union input_report){
+    .gyroscope_input_report = gyro_data
+  };
+
+  struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
+    .chan = 3,
+    .sensor_id = ACCELEROMETER_ID,
+    .size = 0,
+    .input_report = acc_rep,
+    .enabled = false
+  };
+
+  struct single_sensor_reports* gyroscope_calibrated = &(struct single_sensor_reports) {
+    .chan = 3,
+    .sensor_id = GYROSCOPE_CALIBRATED_ID,
+    .size = 0,
+    .input_report = gyro_rep,
+    .enabled = false
+  };
+
+  struct single_sensor_reports* magnetic_field = &(struct single_sensor_reports) {
+    .chan = 3,
+    .sensor_id = MAGNET_FIELD_CALIBRATED_ID,
+    .size = 0,
+    .input_report = mag_rep,
+    .enabled = false
+  };
+
+  struct full_sensor_reports* sensor_reports = &(struct full_sensor_reports) {
+    .accelerometer = accelerometer,
+    .gyroscope = gyroscope_calibrated,
+    .magnetic_field = magnetic_field
+  };
+
+  init_pins();
 
   open_channel();
 
-  configure_sensors();
+  configure_sensors(sensor_reports);
 
   flash_led_n(100, 100, 5);
 
-  for (;;) poll_sensor();
+  for (;;) poll_sensor(sensor_reports);
 
   return 0;
 }
