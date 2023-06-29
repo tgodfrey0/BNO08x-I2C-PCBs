@@ -466,8 +466,8 @@ void configure_sensors(struct full_sensor_reports* sensor_reports){
   printf("Enabling sensors\n");
 
   enable_sensor(sensor_reports->accelerometer);
-  //enable_sensor(sensor_reports->magnetic_field);
-  //enable_sensor(sensor_reports->gyroscope); 
+  enable_sensor(sensor_reports->magnetic_field);
+  enable_sensor(sensor_reports->gyroscope); 
 
   printf("Sensors enabled\n");
 }
