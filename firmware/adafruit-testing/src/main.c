@@ -57,7 +57,7 @@ union input_report* gyro_rep = NULL;
 
 struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
   .chan = 3,
-  .sensor_id = 0x01,
+  .sensor_id = ACCELEROMETER_ID,
   .size = 0,
   .input_report = NULL,
   .enabled = false
@@ -65,7 +65,7 @@ struct single_sensor_reports* accelerometer = &(struct single_sensor_reports) {
 
 struct single_sensor_reports* gyroscope_calibrated = &(struct single_sensor_reports) {
   .chan = 3,
-  .sensor_id = 0x02,
+  .sensor_id = GYROSCOPE_CALIBRATED_ID,
   .size = 0,
   .input_report = NULL,
   .enabled = false
@@ -73,7 +73,7 @@ struct single_sensor_reports* gyroscope_calibrated = &(struct single_sensor_repo
 
 struct single_sensor_reports* magnetic_field = &(struct single_sensor_reports) {
   .chan = 3,
-  .sensor_id = 0x03,
+  .sensor_id = MAGNET_FIELD_CALIBRATED_ID,
   .size = 0,
   .input_report = NULL,
   .enabled = false
@@ -248,6 +248,11 @@ void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
  * Format the received payload into the accelerometer struct
  */
 void format_accelerometer_data(){
+  printf("s: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
+  printf("d: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
+  printf("x: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x);
+  printf("y: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->y);
+  printf("z: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
   printf("Accelerometer data:\n");
   printf("Status: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
   printf("Delay: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
@@ -302,11 +307,8 @@ void parse_accelerometer_data(uint8_t* cargo_ptr){
   }
 
   uint16_t x = *(cargo_ptr + 4) | (*(cargo_ptr + 5) << 8);
-  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 4), (*(cargo_ptr + 5) << 8), x);
   uint16_t y = *(cargo_ptr + 6) | (*(cargo_ptr + 7) << 8);
-  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 6), (*(cargo_ptr + 7) << 8), y);
   uint16_t z = *(cargo_ptr + 8) | (*(cargo_ptr + 9) << 8);
-  printf("0x%x, 0x%x; 0x%x\n", *(cargo_ptr + 8), (*(cargo_ptr + 9) << 8), z);
 
   sensor_reports->accelerometer->input_report->accelerometer_input_report->status = *(cargo_ptr + 2);
   sensor_reports->accelerometer->input_report->accelerometer_input_report->delay = *(cargo_ptr + 3);
@@ -314,6 +316,8 @@ void parse_accelerometer_data(uint8_t* cargo_ptr){
   sensor_reports->accelerometer->input_report->accelerometer_input_report->y = y;
   sensor_reports->accelerometer->input_report->accelerometer_input_report->z = z;
 
+  printf("s: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
+  printf("d: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
   printf("x: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x);
   printf("y: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->y);
   printf("z: %x\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
@@ -444,7 +448,6 @@ void read_sensor(struct single_sensor_reports* buf){
 
 
   buf->size = payload_size;
-  printf("%d bytes\n", payload_size);
 
   if(payload_size > 0) {
     inner_cargo_size = payload_size - HEADER_TIMEBASE_OFFSET;
