@@ -149,25 +149,6 @@ void open_channel(){
 }
 
 /**
- * Format a report to stdout
- *
- * @param[in] name      The display name for the reports
- * @param[in] size      The size of the data
- * @param[in] payload   The report data
- */
-void format_sensor_reports(const char* name, uint16_t size, uint8_t payload[]){
-  if(size == 0) return;
-
-  printf("%s report, %d bytes received\n", name, size);
-
-  printf("[");
-  for(uint16_t i = 0; i < (size-1); i++){
-    printf("%d, ", payload[i]);
-  }
-  printf("%d]\n", payload[size-1]);
-}
-
-/**
  * Format the received payload into the accelerometer struct
  *
  * @param[in] sensor_reports    The full sensor struct
@@ -176,7 +157,7 @@ void format_accelerometer_data(struct full_sensor_reports* sensor_reports){
   printf("Accelerometer data:\n");
   printf("Status: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->status);
   printf("Delay: %d\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->delay);
-  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x, sensor_reports->accelerometer->input_report->accelerometer_input_report->y, sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
+  printf("(x, y, z) m/s^2: (%d, %d, %d) m/s^2\n", sensor_reports->accelerometer->input_report->accelerometer_input_report->x, sensor_reports->accelerometer->input_report->accelerometer_input_report->y, sensor_reports->accelerometer->input_report->accelerometer_input_report->z);
 }
 
 /**
@@ -188,7 +169,7 @@ void format_gyroscope_data(struct full_sensor_reports* sensor_reports){
   printf("Gyroscope data:\n");
   printf("Status: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->status);
   printf("Delay: %d\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->delay);
-  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->x, sensor_reports->gyroscope->input_report->gyroscope_input_report->y, sensor_reports->gyroscope->input_report->gyroscope_input_report->z);
+  printf("(x, y, z) rad/s: (%d, %d, %d) rad/s\n", sensor_reports->gyroscope->input_report->gyroscope_input_report->x, sensor_reports->gyroscope->input_report->gyroscope_input_report->y, sensor_reports->gyroscope->input_report->gyroscope_input_report->z);
 }
 
 /**
@@ -200,7 +181,7 @@ void format_magnetic_field_data(struct full_sensor_reports* sensor_reports){
   printf("Magnetic field sensor data:\n");
   printf("Status: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->status);
   printf("Delay: %d\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->delay);
-  printf("(x, y, z): (0x%x, 0x%x, 0x%x)\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->x, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->y, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->z);
+  printf("(x, y, z) uT: (%d, %d, %d) uT\n", sensor_reports->magnetic_field->input_report->magnetic_field_input_report->x, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->y, sensor_reports->magnetic_field->input_report->magnetic_field_input_report->z);
 }
 
 /**
