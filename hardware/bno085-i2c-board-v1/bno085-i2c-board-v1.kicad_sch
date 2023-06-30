@@ -734,7 +734,7 @@
     (pin "1" (uuid 86e50b03-59bc-43c1-9beb-7d7816912422))
     (pin "2" (uuid 637d5b7e-f1a2-4179-a53b-b07e168e8ced))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "C1") (unit 1)
         )
@@ -759,7 +759,7 @@
     )
     (pin "1" (uuid d5f16592-9538-483a-a8e1-1a1d020ada43))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#FLG01") (unit 1)
         )
@@ -784,7 +784,7 @@
     )
     (pin "1" (uuid 03c66d76-54d6-4500-a62d-aaf1b99ea217))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR02") (unit 1)
         )
@@ -810,7 +810,7 @@
     (pin "1" (uuid 57603893-c4d8-4903-a48c-684d705e25d4))
     (pin "2" (uuid 349af739-91e5-4a29-9b72-4d818b28a5ba))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R1") (unit 1)
         )
@@ -836,7 +836,7 @@
     (pin "1" (uuid a0514ed1-63cd-484d-addf-c26e8773fd00))
     (pin "2" (uuid ae110744-8b71-45f7-af63-874d3895adac))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R2") (unit 1)
         )
@@ -861,7 +861,7 @@
     )
     (pin "1" (uuid 26b18835-d422-4ce3-9135-fa5dedbb29e5))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR011") (unit 1)
         )
@@ -886,7 +886,7 @@
     )
     (pin "1" (uuid 524832c9-9c83-48d5-b8aa-6f31f6e38b49))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR09") (unit 1)
         )
@@ -911,7 +911,7 @@
     )
     (pin "1" (uuid 6fea1967-8228-4905-97ff-49a87c84b49f))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR010") (unit 1)
         )
@@ -937,7 +937,7 @@
     (pin "1" (uuid 4e5b1c00-7845-4c09-8448-3f05efc18efe))
     (pin "2" (uuid d855e041-990e-4bd9-a0fd-c1cd779d31b9))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R4") (unit 1)
         )
@@ -989,7 +989,7 @@
     (pin "8" (uuid d6726680-994d-4368-86ee-4c6580534288))
     (pin "9" (uuid 1c977161-d75b-4984-8437-b1cc490db717))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "U1") (unit 1)
         )
@@ -1014,7 +1014,7 @@
     )
     (pin "1" (uuid 9c13ce78-881b-45cf-bf7a-8fbb355c2582))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR04") (unit 1)
         )
@@ -1040,7 +1040,7 @@
     (pin "1" (uuid d8620f8d-6e2d-439f-b9eb-bbeb8613efd3))
     (pin "2" (uuid 454d8d96-4efb-45d7-aade-db5bbb06a16c))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R5") (unit 1)
         )
@@ -1065,7 +1065,7 @@
     )
     (pin "1" (uuid 63e61190-0568-4840-be14-35644ad73d54))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR08") (unit 1)
         )
@@ -1090,7 +1090,7 @@
     )
     (pin "1" (uuid 5de14b68-dd72-41a6-aec4-9b32e008d531))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR07") (unit 1)
         )
@@ -1115,7 +1115,7 @@
     )
     (pin "1" (uuid 869d4b61-c664-4e0c-a8a6-aadaf37e7dff))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR01") (unit 1)
         )
@@ -1140,7 +1140,7 @@
     )
     (pin "1" (uuid 36e7b615-ba44-45a9-ad00-9284eb22b375))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR03") (unit 1)
         )
@@ -1165,7 +1165,7 @@
     )
     (pin "1" (uuid 6c8b57d3-7571-451f-b0c0-5324fc16e231))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR012") (unit 1)
         )
@@ -1190,7 +1190,7 @@
     )
     (pin "1" (uuid 515baa3a-0c02-452a-b076-43ffbde11dc8))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR05") (unit 1)
         )
@@ -1216,7 +1216,7 @@
     (pin "1" (uuid b5827433-b253-42a9-aded-8d956252bd01))
     (pin "2" (uuid 86c06281-5afc-495e-926d-8bc085f87e4e))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R3") (unit 1)
         )
@@ -1246,7 +1246,7 @@
     (pin "5" (uuid 7e4b4784-6459-48da-8f31-63824a81974c))
     (pin "6" (uuid 2482b6f3-8606-4be4-8426-2f226f936f80))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "J1") (unit 1)
         )
@@ -1271,7 +1271,7 @@
     )
     (pin "1" (uuid b5cab136-6c38-431a-a1e6-47c16b930100))
     (instances
-      (project "bno085-i2c-board"
+      (project "bno085-i2c-board-v1"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR06") (unit 1)
         )
