@@ -495,7 +495,7 @@
     (property "ki_keywords" "connector")
     (path "/c1b13e60-d09e-4921-bafc-1d75a07f66a1")
     (attr through_hole)
-    (fp_text reference "J5" (at 4.464917 1.490663 180) (layer "F.SilkS")
+    (fp_text reference "J5" (at 4.464917 1.490663 180) (layer "F.SilkS") hide
         (effects (font (size 1 1) (thickness 0.15)))
       (tstamp b5a05eba-9514-4f12-b441-91e356002bd5)
     )
