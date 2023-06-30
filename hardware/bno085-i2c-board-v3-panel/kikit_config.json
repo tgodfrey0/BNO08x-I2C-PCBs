@@ -12,7 +12,7 @@
     },
     "cuts": {
         "type": "mousebites",
-        "offset": "-0.250mm"
+        "offset": "-0.125mm"
     },
     "framing": {
         "type": "frame"
