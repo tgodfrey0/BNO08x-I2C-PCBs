@@ -179,7 +179,7 @@
     "pinned_symbol_libs": []
   },
   "meta": {
-    "filename": "bno085-i2c-board-v3-panel.kicad_pro",
+    "filename": "bno085-i2c-board-v3-panel-manual.kicad_pro",
     "version": 1
   },
   "net_settings": {

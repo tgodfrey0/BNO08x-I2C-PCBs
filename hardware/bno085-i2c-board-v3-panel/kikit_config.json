@@ -1,0 +1,24 @@
+{
+    "layout": {
+        "hspace": "2mm",
+        "vspace": "2mm",
+        "rows": "5",
+        "cols": "5"
+    },
+    "tabs": {
+        "type": "fixed",
+        "vwidth": "2mm",
+        "hwidth": "2mm"
+    },
+    "cuts": {
+        "type": "mousebites",
+        "offset": "-0.250mm"
+    },
+    "framing": {
+        "type": "frame"
+    },
+    "text": {
+        "type": "simple",
+        "text": "{boardTitle} | {boardDate}"
+    }
+}
