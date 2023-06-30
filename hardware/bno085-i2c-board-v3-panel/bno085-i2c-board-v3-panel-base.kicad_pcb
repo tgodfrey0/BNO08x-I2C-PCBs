@@ -8,6 +8,7 @@
   (title_block
     (title "BNO085 Interface Board")
     (date "2023-06-30")
+    (comment 1 "Author: Toby Godfrey")
   )
 
   (layers

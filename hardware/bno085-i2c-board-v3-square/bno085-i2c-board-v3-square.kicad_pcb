@@ -5,6 +5,12 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "BNO085 Interface Board (Rectangular)")
+    (date "2023-06-30")
+    (comment 1 "Author: Toby Godfrey")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (31 "B.Cu" signal)
