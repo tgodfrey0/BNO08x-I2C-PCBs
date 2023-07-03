@@ -9,7 +9,7 @@
 #include <stdbool.h>
 #include <stdint.h>
 
-
+#define scale_q(n) (1.0f / (1<<n))
 #define min(a,b) ({ __typeof__ (a) _a = (a); __typeof__ (b) _b = (b); _a < _b ? _a : _b; })
 
 #define BNO085_ADDR	0b1001010U
@@ -33,25 +33,25 @@
 struct accelerometer_input_report {
   uint8_t status;
   uint8_t delay;
-  int16_t x;
-  int16_t y;
-  int16_t z;
+  float x;
+  float y;
+  float z;
 };
 
 struct magnetic_field_input_report {
   uint8_t status;
   uint8_t delay;
-  int16_t x;
-  int16_t y;
-  int16_t z;
+  float x;
+  float y;
+  float z;
 };
 
 struct gyroscope_calibrated_input_report {
   uint8_t status;
   uint8_t delay;
-  int16_t x;
-  int16_t y;
-  int16_t z;
+  float x;
+  float y;
+  float z;
 };
 
 union input_report {
