@@ -79,7 +79,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "/home/toby/Code/BNO085-I2C-PCBs/hardware/bno085-i2c-board-v3-panel/fab_files_panel/")
+      (outputdirectory "fab_files_panel/")
     )
   )
 
