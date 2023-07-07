@@ -1,3 +1,6 @@
 [submodule "pico-sdk"]
 	path = firmware/adafruit-testing/lib/pico-sdk
 	url = git@github.com:raspberrypi/pico-sdk.git
+[submodule "bno085-i2c-firmware"]
+	path = firmware/BNO085-I2C-Firmware
+	url = git@github.com:tgodfrey0/BNO085-I2C-Firmware.git
