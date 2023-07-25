@@ -418,9 +418,6 @@
     )
   )
 
-  (junction (at 176.53 124.46) (diameter 0) (color 0 0 0 0)
-    (uuid 27de8370-14b3-4f2f-b8cb-6e425fa35d75)
-  )
   (junction (at 170.18 114.3) (diameter 0) (color 0 0 0 0)
     (uuid 398f67da-ab75-440e-870f-629c1f622cb3)
   )
@@ -429,6 +426,12 @@
   )
   (junction (at 132.08 73.66) (diameter 0) (color 0 0 0 0)
     (uuid 76aa4507-f1f9-404a-904e-63359afc7822)
+  )
+  (junction (at 173.99 124.46) (diameter 0) (color 0 0 0 0)
+    (uuid 7776acac-5819-46eb-a1cb-7c39ef566c31)
+  )
+  (junction (at 173.99 114.3) (diameter 0) (color 0 0 0 0)
+    (uuid 8fa9f592-d261-40ab-a30f-0f3fd3f83075)
   )
   (junction (at 176.53 104.14) (diameter 0) (color 0 0 0 0)
     (uuid 98f156e1-8919-4771-9c18-d6c38df5c33d)
@@ -465,15 +468,11 @@
     (stroke (width 0) (type default))
     (uuid 3ee380ce-d3c2-454d-95c4-9a565fddd6f5)
   )
-  (wire (pts (xy 176.53 124.46) (xy 187.96 124.46))
-    (stroke (width 0) (type default))
-    (uuid 4372b9f5-0f73-4d78-9b28-2e06e2542ec0)
-  )
   (wire (pts (xy 132.08 73.66) (xy 148.59 73.66))
     (stroke (width 0) (type default))
     (uuid 4afdc2ad-5188-4eb2-8c41-4ed72336b1b9)
   )
-  (wire (pts (xy 176.53 123.19) (xy 176.53 124.46))
+  (wire (pts (xy 173.99 123.19) (xy 173.99 124.46))
     (stroke (width 0) (type default))
     (uuid 4ff9a411-1939-4f78-b77a-526268f38b2f)
   )
@@ -488,6 +487,10 @@
   (wire (pts (xy 176.53 111.76) (xy 176.53 114.3))
     (stroke (width 0) (type default))
     (uuid 6970f0db-c1cd-496a-9d9e-303543ee0f87)
+  )
+  (wire (pts (xy 173.99 114.3) (xy 170.18 114.3))
+    (stroke (width 0) (type default))
+    (uuid 7402c3ab-f54e-409d-b5d1-28499cdc6c32)
   )
   (wire (pts (xy 119.38 104.14) (xy 123.19 104.14))
     (stroke (width 0) (type default))
@@ -533,7 +536,7 @@
     (stroke (width 0) (type default))
     (uuid cdbc5193-9944-44b7-8ea9-6801cd370a78)
   )
-  (wire (pts (xy 153.67 124.46) (xy 176.53 124.46))
+  (wire (pts (xy 153.67 124.46) (xy 173.99 124.46))
     (stroke (width 0) (type default))
     (uuid d0377e85-d670-431e-8ef0-793f1e2b6264)
   )
@@ -549,11 +552,15 @@
     (stroke (width 0) (type default))
     (uuid e2072b4e-8577-4aa5-87f5-b02aa16e72a3)
   )
-  (wire (pts (xy 176.53 114.3) (xy 176.53 118.11))
+  (wire (pts (xy 173.99 114.3) (xy 173.99 118.11))
     (stroke (width 0) (type default))
     (uuid e819f83c-c217-4009-99e3-4a754e40d792)
   )
-  (wire (pts (xy 176.53 114.3) (xy 170.18 114.3))
+  (wire (pts (xy 173.99 124.46) (xy 187.96 124.46))
+    (stroke (width 0) (type default))
+    (uuid eb6c04f1-a017-4395-adf5-12408164c8cb)
+  )
+  (wire (pts (xy 176.53 114.3) (xy 173.99 114.3))
     (stroke (width 0) (type default))
     (uuid f020a3ab-90d5-4647-a0e0-d28f1d06bb83)
   )
@@ -709,6 +716,11 @@
     )
     (pin "1" (uuid 03c66d76-54d6-4500-a62d-aaf1b99ea217))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR04") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR04") (unit 1)
@@ -826,6 +838,11 @@
     )
     (pin "1" (uuid 26b18835-d422-4ce3-9135-fa5dedbb29e5))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR07") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR07") (unit 1)
@@ -896,6 +913,11 @@
     )
     (pin "1" (uuid 524832c9-9c83-48d5-b8aa-6f31f6e38b49))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR06") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR06") (unit 1)
@@ -931,6 +953,11 @@
     )
     (pin "1" (uuid 6fea1967-8228-4905-97ff-49a87c84b49f))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR012") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR012") (unit 1)
@@ -949,19 +976,19 @@
     )
   )
 
-  (symbol (lib_id "Device:R_Small") (at 176.53 120.65 0) (unit 1)
+  (symbol (lib_id "Device:R_Small") (at 173.99 120.65 0) (unit 1)
     (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
     (uuid 55df6b2a-328a-498d-8047-30a72dc4fb87)
-    (property "Reference" "R5" (at 179.07 119.38 0)
+    (property "Reference" "R5" (at 176.53 119.38 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "2.2k" (at 179.07 121.92 0)
+    (property "Value" "2.2k" (at 176.53 121.92 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 176.53 120.65 0)
+    (property "Footprint" "Resistor_SMD:R_0402_1005Metric" (at 173.99 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
-    (property "Datasheet" "~" (at 176.53 120.65 0)
+    (property "Datasheet" "~" (at 173.99 120.65 0)
       (effects (font (size 1.27 1.27)) hide)
     )
     (pin "1" (uuid 4e5b1c00-7845-4c09-8448-3f05efc18efe))
@@ -996,7 +1023,7 @@
     (property "Reference" "U1" (at 148.59 67.31 0)
       (effects (font (size 1.27 1.27)) (justify left))
     )
-    (property "Value" "~" (at 149.86 93.98 0)
+    (property "Value" "BNO08x" (at 149.86 93.98 0)
       (effects (font (size 1.27 1.27)))
     )
     (property "Footprint" "Package_LGA:LGA-28_5.2x3.8mm_P0.5mm" (at 149.86 93.98 0)
@@ -1074,6 +1101,11 @@
     )
     (pin "1" (uuid 9c13ce78-881b-45cf-bf7a-8fbb355c2582))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR09") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR09") (unit 1)
@@ -1150,6 +1182,11 @@
     )
     (pin "1" (uuid 63e61190-0568-4840-be14-35644ad73d54))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR02") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR02") (unit 1)
@@ -1220,6 +1257,11 @@
     )
     (pin "1" (uuid 5de14b68-dd72-41a6-aec4-9b32e008d531))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR08") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR08") (unit 1)
@@ -1255,6 +1297,11 @@
     )
     (pin "1" (uuid 869d4b61-c664-4e0c-a8a6-aadaf37e7dff))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR010") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR010") (unit 1)
@@ -1290,6 +1337,11 @@
     )
     (pin "1" (uuid 36e7b615-ba44-45a9-ad00-9284eb22b375))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR05") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR05") (unit 1)
@@ -1325,6 +1377,11 @@
     )
     (pin "1" (uuid 6c8b57d3-7571-451f-b0c0-5324fc16e231))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR011") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR011") (unit 1)
@@ -1360,6 +1417,11 @@
     )
     (pin "1" (uuid 515baa3a-0c02-452a-b076-43ffbde11dc8))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR01") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR01") (unit 1)
@@ -1471,6 +1533,11 @@
     )
     (pin "1" (uuid b5cab136-6c38-431a-a1e6-47c16b930100))
     (instances
+      (project "bno085-i2c-board-v3-large"
+        (path "/65945718-ecdd-4a51-8bb6-fdef4c66336c"
+          (reference "#PWR03") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v3"
         (path "/91467fd9-c59b-4cd8-a593-aab0738bbb6c"
           (reference "#PWR03") (unit 1)

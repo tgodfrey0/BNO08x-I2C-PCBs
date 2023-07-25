@@ -1,5 +1,5 @@
 /***********************************************************************************
- * @file   main->c
+ * @file   main.c
  * @author Toby Godfrey
  * @brief  I2C communication implementation for a Pico and Adafruit BNO085 board
  **********************************************************************************/
@@ -314,7 +314,7 @@ void read_sensor(struct full_sensor_reports* sensor_reports, struct single_senso
   }
 
   uint16_t payload_size = (uint16_t)header[0] | (uint16_t)header[1] << 8;
-  // Remove continutation bit
+  // Remove continuation bit
   payload_size &= ~0x8000;
 
   if(payload_size > MAX_PAYLOAD_SIZE){
