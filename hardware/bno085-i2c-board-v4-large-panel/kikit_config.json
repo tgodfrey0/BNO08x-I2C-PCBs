@@ -7,8 +7,8 @@
     },
     "tabs": {
         "type": "fixed",
-        "vwidth": "2mm",
-        "hwidth": "2mm"
+        "vwidth": "3mm",
+        "hwidth": "3mm"
     },
     "cuts": {
         "type": "mousebites",
