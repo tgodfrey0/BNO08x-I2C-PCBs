@@ -1,0 +1,34 @@
+{
+    "layout": {
+        "hspace": "2mm",
+        "vspace": "2mm",
+        "rows": "5",
+        "cols": "5"
+    },
+    "tabs": {
+        "type": "fixed",
+        "vcount": 2,
+        "hcount": 2,
+        "vwidth": "1.5mm",
+        "hwidth": "1.5mm"
+    },
+    "cuts": {
+        "type": "mousebites",
+        "offset": "-0.125mm"
+    },
+    "framing": {
+        "type": "frame"
+    },
+    "fiducials": {
+        "type": "3fid",
+        "hoffset": "2.5mm",
+        "voffset": "2.5mm",
+        "coppersize": "4mm",
+        "paste": "True"
+    },
+    "text": {
+        "type": "simple",
+        "voffset": "2.5mm",
+        "text": "{boardTitle} | {boardDate}"
+    }
+}
