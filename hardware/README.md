@@ -19,3 +19,7 @@ Both keys was created from the insersection between the main PCB edge circle and
 This board is the base for the `v3` panel. The difference is the flat spots by each pin to allow it to be panelised. This means the dimensions are slightly different.
 
 ![image](key-v3-base.png)
+
+### v5
+
+The v5 board design has no physical key, however orientation pads were added to the front and back silkscreen these are in the top-left, top-right and bottom-right corners and can be used to orientate the board.
