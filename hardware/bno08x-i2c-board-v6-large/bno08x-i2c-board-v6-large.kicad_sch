@@ -1,14 +1,8 @@
 (kicad_sch (version 20230121) (generator eeschema)
 
-  (uuid 86fccf2e-512b-4d5e-853a-0b379c174aaf)
+  (uuid d7bfa7c2-2653-4e07-b133-5c72cde0b07d)
 
   (paper "A4")
-
-  (title_block
-    (title "BNO08x Interface Board")
-    (date "2023-08-22")
-    (comment 1 "Author: Toby Godfrey")
-  )
 
   (lib_symbols
     (symbol "BNO08x:BNO085" (in_bom yes) (on_board yes)
@@ -243,6 +237,61 @@
         )
       )
     )
+    (symbol "Device:Crystal_Small" (pin_numbers hide) (pin_names (offset 1.016) hide) (in_bom yes) (on_board yes)
+      (property "Reference" "Y" (at 0 2.54 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Value" "Crystal_Small" (at 0 -2.54 0)
+        (effects (font (size 1.27 1.27)))
+      )
+      (property "Footprint" "" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "Datasheet" "~" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_keywords" "quartz ceramic resonator oscillator" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_description" "Two pin crystal, small symbol" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (property "ki_fp_filters" "Crystal*" (at 0 0 0)
+        (effects (font (size 1.27 1.27)) hide)
+      )
+      (symbol "Crystal_Small_0_1"
+        (rectangle (start -0.762 -1.524) (end 0.762 1.524)
+          (stroke (width 0) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy -1.27 -0.762)
+            (xy -1.27 0.762)
+          )
+          (stroke (width 0.381) (type default))
+          (fill (type none))
+        )
+        (polyline
+          (pts
+            (xy 1.27 -0.762)
+            (xy 1.27 0.762)
+          )
+          (stroke (width 0.381) (type default))
+          (fill (type none))
+        )
+      )
+      (symbol "Crystal_Small_1_1"
+        (pin passive line (at -2.54 0 0) (length 1.27)
+          (name "1" (effects (font (size 1.27 1.27))))
+          (number "1" (effects (font (size 1.27 1.27))))
+        )
+        (pin passive line (at 2.54 0 180) (length 1.27)
+          (name "2" (effects (font (size 1.27 1.27))))
+          (number "2" (effects (font (size 1.27 1.27))))
+        )
+      )
+    )
     (symbol "Device:R_Small" (pin_numbers hide) (pin_names (offset 0.254) hide) (in_bom yes) (on_board yes)
       (property "Reference" "R" (at 0.762 0.508 0)
         (effects (font (size 1.27 1.27)) (justify left))
@@ -422,29 +471,41 @@
   (junction (at 132.08 73.66) (diameter 0) (color 0 0 0 0)
     (uuid 76aa4507-f1f9-404a-904e-63359afc7822)
   )
+  (junction (at 250.19 76.2) (diameter 0) (color 0 0 0 0)
+    (uuid 7fbea8c0-4ee2-4dec-8a6a-ab41cd828816)
+  )
   (junction (at 153.67 125.73) (diameter 0) (color 0 0 0 0)
     (uuid ce76c940-48ac-4afc-a60b-06cf7e910242)
   )
   (junction (at 176.53 104.14) (diameter 0) (color 0 0 0 0)
     (uuid d9824bea-5cd7-4ee5-8381-07fc261e9f0b)
   )
+  (junction (at 259.08 63.5) (diameter 0) (color 0 0 0 0)
+    (uuid f7eced6c-0a49-41db-8e2b-6bcd31138249)
+  )
+  (junction (at 241.3 63.5) (diameter 0) (color 0 0 0 0)
+    (uuid fd2890b6-839c-40fe-8915-0a3c1d301a64)
+  )
 
   (no_connect (at 132.08 93.98) (uuid 6ff2c8b6-5333-415d-90b5-0f968664e8c7))
-  (no_connect (at 167.64 86.36) (uuid 71cfebca-bcdc-431b-923c-39d1df624cac))
   (no_connect (at 151.13 123.19) (uuid e2ea40cb-ad33-46d4-9ef3-9965210c73c3))
   (no_connect (at 132.08 101.6) (uuid f55ab377-8f39-4d19-a80d-83b23e12a6c7))
 
-  (wire (pts (xy 229.87 64.77) (xy 229.87 69.85))
-    (stroke (width 0) (type default))
-    (uuid 18009602-02c3-456b-b038-305210461d27)
-  )
   (wire (pts (xy 146.05 123.19) (xy 146.05 125.73))
     (stroke (width 0) (type default))
     (uuid 2ee9e5b7-7ba2-4ddc-825d-f4e0eafc9898)
   )
+  (wire (pts (xy 259.08 63.5) (xy 259.08 67.31))
+    (stroke (width 0) (type default))
+    (uuid 3547f7f5-1a2e-4ec0-9aaf-22b2d883447c)
+  )
   (wire (pts (xy 153.67 125.73) (xy 153.67 132.08))
     (stroke (width 0) (type default))
     (uuid 36b161b1-d2d0-48ac-aac8-abb6a6684808)
+  )
+  (wire (pts (xy 241.3 76.2) (xy 241.3 72.39))
+    (stroke (width 0) (type default))
+    (uuid 3ecdd146-d3d0-4868-a66b-b7c0533aa6ac)
   )
   (wire (pts (xy 153.67 123.19) (xy 153.67 125.73))
     (stroke (width 0) (type default))
@@ -453,6 +514,10 @@
   (wire (pts (xy 132.08 73.66) (xy 148.59 73.66))
     (stroke (width 0) (type default))
     (uuid 4afdc2ad-5188-4eb2-8c41-4ed72336b1b9)
+  )
+  (wire (pts (xy 259.08 63.5) (xy 265.43 63.5))
+    (stroke (width 0) (type default))
+    (uuid 4d184de6-c51f-4832-81b9-ea978f6f6337)
   )
   (wire (pts (xy 115.57 88.9) (xy 118.11 88.9))
     (stroke (width 0) (type default))
@@ -466,6 +531,10 @@
     (stroke (width 0) (type default))
     (uuid 67fb45a4-ac3b-4a0d-a2c9-1207be8e5a60)
   )
+  (wire (pts (xy 241.3 53.34) (xy 259.08 53.34))
+    (stroke (width 0) (type default))
+    (uuid 68927b49-a753-413b-aad3-279d464173f7)
+  )
   (wire (pts (xy 119.38 104.14) (xy 123.19 104.14))
     (stroke (width 0) (type default))
     (uuid 75dc5c1f-64e4-4a07-9660-b2f18e77ff51)
@@ -474,9 +543,25 @@
     (stroke (width 0) (type default))
     (uuid 797a344c-119d-475b-81b2-0dcaf2bc3910)
   )
+  (wire (pts (xy 241.3 63.5) (xy 247.65 63.5))
+    (stroke (width 0) (type default))
+    (uuid 815ff530-0618-4c1b-8884-ea8959a30dd5)
+  )
+  (wire (pts (xy 250.19 76.2) (xy 241.3 76.2))
+    (stroke (width 0) (type default))
+    (uuid 862493c2-2236-4093-869f-4eab0920aa2c)
+  )
   (wire (pts (xy 236.22 90.17) (xy 238.76 90.17))
     (stroke (width 0) (type default))
     (uuid 8ac83b5b-b99b-418d-b940-334488d25bbf)
+  )
+  (wire (pts (xy 259.08 76.2) (xy 250.19 76.2))
+    (stroke (width 0) (type default))
+    (uuid 97cf3eba-243d-445d-a959-2ff8eec26fc1)
+  )
+  (wire (pts (xy 241.3 63.5) (xy 241.3 67.31))
+    (stroke (width 0) (type default))
+    (uuid 9a6af6eb-2cbb-462b-bf35-014d9aa55b41)
   )
   (wire (pts (xy 236.22 107.95) (xy 238.76 107.95))
     (stroke (width 0) (type default))
@@ -502,6 +587,10 @@
     (stroke (width 0) (type default))
     (uuid bf3dd0df-0bdb-40e5-9cc9-c20dec6dfda7)
   )
+  (wire (pts (xy 234.95 63.5) (xy 241.3 63.5))
+    (stroke (width 0) (type default))
+    (uuid c464bc52-3868-4cd5-8f46-adbcb1be770c)
+  )
   (wire (pts (xy 243.84 133.35) (xy 243.84 135.89))
     (stroke (width 0) (type default))
     (uuid cd6f0d0e-9eb8-4c1d-ba1d-fa16573eaf85)
@@ -509,6 +598,10 @@
   (wire (pts (xy 128.27 104.14) (xy 132.08 104.14))
     (stroke (width 0) (type default))
     (uuid d1460467-c2a3-4de9-9f5c-71c099737b9b)
+  )
+  (wire (pts (xy 259.08 72.39) (xy 259.08 76.2))
+    (stroke (width 0) (type default))
+    (uuid d203fc75-7bc4-4cb5-9c8b-07f560c4564d)
   )
   (wire (pts (xy 132.08 73.66) (xy 132.08 81.28))
     (stroke (width 0) (type default))
@@ -530,19 +623,19 @@
     (stroke (width 0) (type default))
     (uuid e2072b4e-8577-4aa5-87f5-b02aa16e72a3)
   )
-  (wire (pts (xy 237.49 64.77) (xy 237.49 69.85))
-    (stroke (width 0) (type default))
-    (uuid e91e758c-11fe-4258-8ddc-f9e16640ed38)
-  )
   (wire (pts (xy 152.4 73.66) (xy 156.21 73.66))
     (stroke (width 0) (type default))
     (uuid f78126ed-9f9c-4e7a-a461-b349089d2fed)
   )
+  (wire (pts (xy 252.73 63.5) (xy 259.08 63.5))
+    (stroke (width 0) (type default))
+    (uuid fbed929c-4808-4177-83c7-cd3a91faec21)
+  )
 
-  (rectangle (start 226.06 57.15) (end 241.3 82.55)
+  (rectangle (start 226.06 49.53) (end 276.86 82.55)
     (stroke (width 0) (type default))
     (fill (type none))
-    (uuid 16e3a12f-5db6-450b-8ade-8815dfcfd166)
+    (uuid 2c5f988b-fc14-4993-bca9-67cb2fb09f9a)
   )
   (rectangle (start 226.06 86.36) (end 257.81 96.52)
     (stroke (width 0) (type default))
@@ -560,7 +653,7 @@
     (uuid ac0adfbd-627b-452b-a785-478fedfd052e)
   )
 
-  (text_box "For I2C the PS pins should be as follows:\n- PS0 Low\n- PS1 Low\n\nFor internal clock selection the CLKSEL pins should be as follows:\n- CLKSEL0 High\n- CLKSEL1 Low"
+  (text_box "For I2C the PS pins should be as follows:\n- PS0 Low\n- PS1 Low\n\nFor external clock selection the CLKSEL pins should be as follows:\n- CLKSEL0 Low\n- CLKSEL1 connected to crystal"
     (at 24.13 54.61 0) (size 71.12 22.86)
     (stroke (width 0) (type default))
     (fill (type none))
@@ -576,9 +669,9 @@
     (effects (font (size 1.27 1.27)) (justify left bottom))
     (uuid 42c6126f-3975-4c51-951c-9d68764d816c)
   )
-  (text "Clock Selection" (at 226.06 57.15 0)
+  (text "Clock Selection" (at 226.06 49.53 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
-    (uuid 587be355-8bef-400d-ad20-d9e1f24c96f3)
+    (uuid 45a10726-fcc6-4c38-8114-760c6d198dff)
   )
   (text "I2C Headers" (at 226.0444 86.2455 0)
     (effects (font (size 1.27 1.27)) (justify left bottom))
@@ -594,10 +687,31 @@
     (uuid fd5e03bb-f2b1-4d26-8912-c01264c575f0)
   )
 
+  (global_label "CLKSEL0" (shape input) (at 241.3 53.34 180) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify right))
+    (uuid 0be368cf-c3aa-403d-8ae6-39c1484a4bed)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 230.1506 53.34 0)
+      (effects (font (size 1.27 1.27)) (justify right) hide)
+    )
+  )
+  (global_label "CLKSEL1" (shape input) (at 265.43 63.5 0) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 153d6d64-442b-4d79-a116-1717b50ed505)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 276.5794 63.5 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
+    )
+  )
   (global_label "CLKSEL1" (shape input) (at 167.64 88.9 0) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify left))
-    (uuid 36c65e6b-5872-48ec-821e-cd1e8d63b583)
+    (uuid 1614e89b-d4dc-4e2e-b7ee-255830152a0f)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 178.7894 88.9 0)
+      (effects (font (size 1.27 1.27)) (justify left) hide)
+    )
+  )
+  (global_label "XIN32" (shape input) (at 167.64 86.36 0) (fields_autoplaced)
+    (effects (font (size 1.27 1.27)) (justify left))
+    (uuid 4304ecd7-5d3a-4f24-81c9-db6f571a71a6)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 176.189 86.36 0)
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
@@ -608,10 +722,10 @@
       (effects (font (size 1.27 1.27)) (justify left) hide)
     )
   )
-  (global_label "CLKSEL1" (shape input) (at 237.49 69.85 270) (fields_autoplaced)
+  (global_label "XIN32" (shape input) (at 234.95 63.5 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid 72d8553f-3aa4-4bde-a938-b4a9b13b2112)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 237.49 80.9994 90)
+    (uuid 4f2da6f0-6ca2-402a-a23f-4666b0e6ee6c)
+    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 226.401 63.5 0)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -624,15 +738,8 @@
   )
   (global_label "CLKSEL0" (shape input) (at 132.08 91.44 180) (fields_autoplaced)
     (effects (font (size 1.27 1.27)) (justify right))
-    (uuid a7ddbfb4-5bd0-4bba-bda6-093a6f4cb2f9)
+    (uuid a00d606f-c65b-4910-8cca-dc6cd536112f)
     (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 120.9306 91.44 0)
-      (effects (font (size 1.27 1.27)) (justify right) hide)
-    )
-  )
-  (global_label "CLKSEL0" (shape input) (at 229.87 69.85 270) (fields_autoplaced)
-    (effects (font (size 1.27 1.27)) (justify right))
-    (uuid b4e8e872-3792-41d4-8339-27932a5f4663)
-    (property "Intersheetrefs" "${INTERSHEET_REFS}" (at 229.87 80.9994 90)
       (effects (font (size 1.27 1.27)) (justify right) hide)
     )
   )
@@ -693,6 +800,11 @@
           (reference "#FLG01") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#FLG01") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#FLG01") (unit 1)
@@ -742,6 +854,11 @@
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "R1") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "R4") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
@@ -795,9 +912,40 @@
           (reference "R2") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "R1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "R1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C_Small") (at 241.3 69.85 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no)
+    (uuid 2e16e9c7-90c5-4b8d-8373-231de81bd162)
+    (property "Reference" "C3" (at 236.22 68.58 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "22pF" (at 233.68 71.12 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 241.3 69.85 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 241.3 69.85 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 629b8232-e4eb-4dc6-ae36-6dc7b74ad971))
+    (pin "2" (uuid 9729999f-341f-4b9c-a468-fe02e4ef9967))
+    (instances
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "C3") (unit 1)
         )
       )
     )
@@ -843,6 +991,11 @@
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR011") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR07") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
@@ -896,9 +1049,40 @@
           (reference "R4") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "R3") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "R5") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:C_Small") (at 259.08 69.85 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 3ec926b2-b2c5-4c5e-834a-e4012044a9ba)
+    (property "Reference" "C5" (at 261.62 68.5863 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Value" "22pF" (at 261.62 71.1263 0)
+      (effects (font (size 1.27 1.27)) (justify left))
+    )
+    (property "Footprint" "Capacitor_SMD:C_0402_1005Metric" (at 259.08 69.85 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 259.08 69.85 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 3e6667d8-d970-4fcd-abe1-d4ff1432f7d3))
+    (pin "2" (uuid f7ecadc0-51a4-41d8-bc89-cb3131ddf1d9))
+    (instances
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "C5") (unit 1)
         )
       )
     )
@@ -924,6 +1108,11 @@
     (instances
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
+          (reference "C2") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
           (reference "C2") (unit 1)
         )
       )
@@ -957,6 +1146,11 @@
           (reference "#PWR09") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR08") (unit 1)
+        )
+      )
     )
   )
 
@@ -985,6 +1179,11 @@
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
           (reference "#PWR06") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR05") (unit 1)
         )
       )
     )
@@ -1030,6 +1229,11 @@
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR09") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR06") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
@@ -1082,9 +1286,39 @@
           (reference "#PWR010") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR016") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#PWR012") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 259.08 53.34 90) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid 5b29d705-da3d-464c-ba48-f712a9c5fb98)
+    (property "Reference" "#PWR020" (at 265.43 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 262.89 53.34 90)
+      (effects (font (size 1.27 1.27)) (justify right))
+    )
+    (property "Footprint" "" (at 259.08 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 259.08 53.34 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 7b0ee408-b942-4d43-97c7-f8caf0a448c5))
+    (instances
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR020") (unit 1)
         )
       )
     )
@@ -1159,6 +1393,11 @@
           (reference "U1") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "U1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "U1") (unit 1)
@@ -1204,6 +1443,11 @@
           (reference "J4") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "J1") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "J2") (unit 1)
@@ -1232,6 +1476,11 @@
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
           (reference "#PWR020") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR018") (unit 1)
         )
       )
     )
@@ -1264,6 +1513,11 @@
           (reference "#PWR05") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR04") (unit 1)
+        )
+      )
     )
   )
 
@@ -1292,6 +1546,11 @@
       )
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
+          (reference "C1") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
           (reference "C1") (unit 1)
         )
       )
@@ -1340,6 +1599,11 @@
           (reference "#PWR08") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR02") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#PWR02") (unit 1)
@@ -1383,6 +1647,11 @@
       (project "bno085-i2c-board-v2"
         (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
           (reference "J5") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "J4") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
@@ -1435,6 +1704,11 @@
           (reference "#PWR07") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR09") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#PWR08") (unit 1)
@@ -1463,6 +1737,11 @@
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
           (reference "#PWR016") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR014") (unit 1)
         )
       )
     )
@@ -1510,6 +1789,11 @@
           (reference "#PWR01") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR011") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#PWR010") (unit 1)
@@ -1555,9 +1839,39 @@
           (reference "J3") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "J2") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "J1") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "power:GND") (at 250.19 76.2 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid a74e5948-3558-4a4f-8085-3713efbf1cd5)
+    (property "Reference" "#PWR019" (at 250.19 82.55 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Value" "GND" (at 250.19 81.28 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "" (at 250.19 76.2 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "" (at 250.19 76.2 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid d4e84c1e-270e-47f7-88fd-23c0fa076f90))
+    (instances
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR019") (unit 1)
         )
       )
     )
@@ -1605,9 +1919,40 @@
           (reference "#PWR012") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR013") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "#PWR011") (unit 1)
+        )
+      )
+    )
+  )
+
+  (symbol (lib_id "Device:Crystal_Small") (at 250.19 63.5 0) (unit 1)
+    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
+    (uuid c08a41ee-6dfa-41dd-92e6-0b1b7a2256fb)
+    (property "Reference" "Y1" (at 250.19 57.15 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Value" "32.768kHz" (at 250.19 59.69 0)
+      (effects (font (size 1.27 1.27)))
+    )
+    (property "Footprint" "Crystal:Crystal_SMD_MicroCrystal_CM9V-T1A-2Pin_1.6x1.0mm" (at 250.19 63.5 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (property "Datasheet" "~" (at 250.19 63.5 0)
+      (effects (font (size 1.27 1.27)) hide)
+    )
+    (pin "1" (uuid 8830664e-3e00-4864-a735-984f7f60c166))
+    (pin "2" (uuid 861a2f15-f8fe-48e3-961b-a96436246d02))
+    (instances
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "Y1") (unit 1)
         )
       )
     )
@@ -1640,6 +1985,11 @@
           (reference "#PWR012") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR010") (unit 1)
+        )
+      )
     )
   )
 
@@ -1666,6 +2016,11 @@
           (reference "C3") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "C4") (unit 1)
+        )
+      )
     )
   )
 
@@ -1689,6 +2044,11 @@
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
           (reference "#PWR019") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR017") (unit 1)
         )
       )
     )
@@ -1737,6 +2097,11 @@
           (reference "R5") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "R5") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "R4") (unit 1)
@@ -1770,6 +2135,11 @@
       (project "bno08x-i2c-board-v6"
         (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
           (reference "#PWR014") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR012") (unit 1)
         )
       )
     )
@@ -1817,34 +2187,14 @@
           (reference "#PWR05") (unit 1)
         )
       )
-      (project "bno085-i2c-board-v4"
-        (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
           (reference "#PWR01") (unit 1)
         )
       )
-    )
-  )
-
-  (symbol (lib_id "power:+3.3V") (at 229.87 64.77 0) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid dbd947bf-ce5f-4248-88ca-83e522e206ed)
-    (property "Reference" "#PWR021" (at 229.87 68.58 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "+3.3V" (at 229.87 59.69 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 229.87 64.77 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 229.87 64.77 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 43b02438-7037-46de-a859-435985c9a332))
-    (instances
-      (project "bno08x-i2c-board-v6"
-        (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
-          (reference "#PWR021") (unit 1)
+      (project "bno085-i2c-board-v4"
+        (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
+          (reference "#PWR01") (unit 1)
         )
       )
     )
@@ -1893,6 +2243,11 @@
           (reference "R3") (unit 1)
         )
       )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "R2") (unit 1)
+        )
+      )
       (project "bno085-i2c-board-v4"
         (path "/f372499f-eaab-42e3-ae79-06e3434df0c0"
           (reference "R2") (unit 1)
@@ -1923,29 +2278,9 @@
           (reference "#PWR017") (unit 1)
         )
       )
-    )
-  )
-
-  (symbol (lib_id "power:GND") (at 237.49 64.77 180) (unit 1)
-    (in_bom yes) (on_board yes) (dnp no) (fields_autoplaced)
-    (uuid f14bd0e7-31b0-4981-83d0-bcd52a1fe068)
-    (property "Reference" "#PWR024" (at 237.49 58.42 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Value" "GND" (at 237.49 59.69 0)
-      (effects (font (size 1.27 1.27)))
-    )
-    (property "Footprint" "" (at 237.49 64.77 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (property "Datasheet" "" (at 237.49 64.77 0)
-      (effects (font (size 1.27 1.27)) hide)
-    )
-    (pin "1" (uuid 6f7b873d-07df-47f3-815d-809830906dc7))
-    (instances
-      (project "bno08x-i2c-board-v6"
-        (path "/86fccf2e-512b-4d5e-853a-0b379c174aaf"
-          (reference "#PWR024") (unit 1)
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR015") (unit 1)
         )
       )
     )
@@ -1986,6 +2321,11 @@
       (project "bno085-i2c-board-v2"
         (path "/9217d116-cf40-485a-abd0-8ce710fa4b1d"
           (reference "J6") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "J3") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
@@ -2036,6 +2376,11 @@
       (project "bno085-i2c-board"
         (path "/a6bdf641-e64e-4bd0-89ab-89241b3a6e60"
           (reference "#PWR06") (unit 1)
+        )
+      )
+      (project "bno08x-i2c-board-v6-large"
+        (path "/d7bfa7c2-2653-4e07-b133-5c72cde0b07d"
+          (reference "#PWR03") (unit 1)
         )
       )
       (project "bno085-i2c-board-v4"
