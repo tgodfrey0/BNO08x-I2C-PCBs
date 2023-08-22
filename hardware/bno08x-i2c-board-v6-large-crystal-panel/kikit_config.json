@@ -1,0 +1,39 @@
+{
+    "layout": {
+        "hspace": "2mm",
+        "vspace": "2mm",
+        "rows": "5",
+        "cols": "5"
+    },
+    "tabs": {
+        "type": "fixed",
+        "vwidth": "2mm",
+        "hwidth": "2mm"
+    },
+    "cuts": {
+        "type": "mousebites",
+        "spacing": "0.5mm",
+        "offset": "-0.125mm"
+    },
+    "framing": {
+        "type": "frame"
+    },
+    "fiducials": {
+        "type": "3fid",
+        "hoffset": "2.5mm",
+        "voffset": "2.5mm",
+        "coppersize": "4mm",
+        "paste": "True"
+    },
+    "text": {
+        "type": "simple",
+        "voffset": "2.5mm",
+        "text": "{boardTitle} | {boardDate}"
+    },
+    "text2": {
+        "type": "simple",
+        "voffset": "-2.5mm",
+        "text": "With external crystal",
+        "anchor": "mb"
+    }
+}

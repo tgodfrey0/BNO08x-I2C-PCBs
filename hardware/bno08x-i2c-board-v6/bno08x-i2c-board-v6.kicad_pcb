@@ -5,6 +5,12 @@
   )
 
   (paper "A4")
+  (title_block
+    (title "BNO08x Interface Board r5.35")
+    (date "2023-08-22")
+    (comment 1 "Author: Toby Godfrey")
+  )
+
   (layers
     (0 "F.Cu" signal)
     (31 "B.Cu" signal)
@@ -934,6 +940,62 @@
   (segment (start 152.945 99.815) (end 152.3 100.46) (width 0.25) (layer "F.Cu") (net 9) (tstamp ac9f3e82-d547-4632-af2e-9ddf5e72ad8d))
   (segment (start 152.75 98.4855) (end 152.75 98.75) (width 0.25) (layer "F.Cu") (net 9) (tstamp ff17d315-66bf-4edd-a893-88f4f8184e2a))
 
+  (zone (net 0) (net_name "") (layers "F&B.Cu") (tstamp 61fb9b05-7eda-47c5-89f6-ef97b212028c) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks not_allowed) (vias not_allowed) (pads not_allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy 154.8 103.8)
+        (xy 154.8 103.1)
+        (xy 157.9 103.1)
+        (xy 157.9 103.8)
+      )
+    )
+  )
+  (zone (net 0) (net_name "") (layers "F&B.Cu") (tstamp a10dc7a7-0cee-40bb-bf0e-8ee7bba27f53) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks not_allowed) (vias not_allowed) (pads not_allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy 154.7 92.8)
+        (xy 154.7 92.1)
+        (xy 157.8 92.1)
+        (xy 157.8 92.8)
+      )
+    )
+  )
+  (zone (net 0) (net_name "") (layers "F&B.Cu") (tstamp c32b5a7e-26c6-4264-b2d5-4ba1a3e46e1d) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks not_allowed) (vias not_allowed) (pads not_allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy 150.5 96.3)
+        (xy 151.2 96.3)
+        (xy 151.2 99.4)
+        (xy 150.5 99.4)
+      )
+    )
+  )
+  (zone (net 0) (net_name "") (layers "F&B.Cu") (tstamp e4aff85e-9e8a-4b00-bf8d-1cffc6fe0219) (hatch edge 0.5)
+    (connect_pads (clearance 0))
+    (min_thickness 0.25) (filled_areas_thickness no)
+    (keepout (tracks not_allowed) (vias not_allowed) (pads not_allowed) (copperpour not_allowed) (footprints allowed))
+    (fill (thermal_gap 0.5) (thermal_bridge_width 0.5))
+    (polygon
+      (pts
+        (xy 161.4 96.2)
+        (xy 162.1 96.2)
+        (xy 162.1 99.3)
+        (xy 161.4 99.3)
+      )
+    )
+  )
   (group "" (id 044fd75f-2e1f-4e6d-af20-0b0adf19dd77)
     (members
       38dd9a99-47d4-493d-9143-cb7100634a44
