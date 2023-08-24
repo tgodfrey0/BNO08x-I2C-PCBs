@@ -12,7 +12,7 @@
     },
     "cuts": {
         "type": "mousebites",
-        "spacing": "0.5mm",
+        "spacing": "0.55mm",
         "offset": "-0.125mm"
     },
     "framing": {
